@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatisticsTableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {
 
     
       @IBOutlet weak var emotionImage: UIImageView!
