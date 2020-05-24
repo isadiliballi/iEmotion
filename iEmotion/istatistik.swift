@@ -116,8 +116,10 @@ class istatistik: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "emotion2") as! TableViewCell2
         cell.emotionimage.image = UIImage(named: emotionsImage[indexPath.row])
-        cell.backgroundColor = emotionsColor[indexPath.row]
+        cell.percentcolor.backgroundColor = emotionsColor[indexPath.row]
         cell.percent.text = "%\(emotionPercent[indexPath.row])"
+        
+        cell.percentcolor.layer.cornerRadius = 15
         return cell
     }
     

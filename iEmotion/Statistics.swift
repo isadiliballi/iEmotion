@@ -29,7 +29,6 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var emotiontext: UITextView!
     @IBOutlet weak var darkbackground: UIImageView!
     
-    
     var smileColor = UIColor.init(displayP3Red: 255/255, green: 220/255, blue: 0, alpha: 1)
     var happyColor = UIColor.orange
     var normalColor = UIColor.green
@@ -42,12 +41,26 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = titleback
+        
         emotionview.layer.cornerRadius = 20
         emotionview.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         EmotionList.delegate = self
         EmotionList.dataSource = self
         
         dataUpdate()
+    }
+    
+    @IBAction func istatistikgo(_ sender: Any) {
+        if dateArray.isEmpty == false {
+            performSegue(withIdentifier: "istatistik", sender: nil)
+        }
+        else {
+            let alert = UIAlertController(title: "Emo!", message: "Önce günlüğünüze emo eklemeniz gerekiyor. Bir önceki sayfaya gidin.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "TAMAM", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func dataUpdate() {
@@ -83,6 +96,7 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dateArray.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -140,40 +154,45 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
             moontext = "ARALIK"
         }
         
-        cell.dateText.text = "\(day3) \(moontext) \(year)"
+        cell.dateText.text = "\(day3) \(moontext)"
+        cell.yeartext.text = "\(year)"
         
         if emotionArray[indexPath.row] == "MUTLU" {
             cell.emotionImage.image = UIImage(named:"smileemoji")
-            cell.backgroundColor = smileColor
+            cell.emotioncolorview.backgroundColor = smileColor
         }
         else if emotionArray[indexPath.row] == "HAYAT DOLU" {
             cell.emotionImage.image = UIImage(named:"happyemoji")
-            cell.backgroundColor = happyColor
+            cell.emotioncolorview.backgroundColor = happyColor
         }
         else if emotionArray[indexPath.row] == "NORMAL" {
             cell.emotionImage.image = UIImage(named:"normalemoji")
-            cell.backgroundColor = normalColor
+            cell.emotioncolorview.backgroundColor = normalColor
         }
         else if emotionArray[indexPath.row] == "KIZGIN" {
             cell.emotionImage.image = UIImage(named:"angryemoji")
-            cell.backgroundColor = angryColor
+            cell.emotioncolorview.backgroundColor = angryColor
         }
         else if emotionArray[indexPath.row] == "ÜZGÜN" {
             cell.emotionImage.image = UIImage(named:"sademoji")
-            cell.backgroundColor = sadColor
+            cell.emotioncolorview.backgroundColor = sadColor
         }
         else if emotionArray[indexPath.row] == "ENDİŞELİ" {
             cell.emotionImage.image = UIImage(named:"worriedemoji")
-            cell.backgroundColor = worriedColor
+            cell.emotioncolorview.backgroundColor = worriedColor
         }
         else if emotionArray[indexPath.row] == "AŞIK" {
             cell.emotionImage.image = UIImage(named:"loveemoji")
-            cell.backgroundColor = loveColor
+            cell.emotioncolorview.backgroundColor = loveColor
         }
         else if emotionArray[indexPath.row] == "HEYECANLI" {
             cell.emotionImage.image = UIImage(named:"excitedemoji")
-            cell.backgroundColor = excitedColor
+            cell.emotioncolorview.backgroundColor = excitedColor
         }
+        
+        cell.emotioncolorview.layer.cornerRadius = 20
+       
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -182,6 +201,7 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
         emotiontext.isHidden = false
         darkbackground.isHidden = false
         emotiontext.text = emotionTextArray[indexPath.row]
+        emotiontext.isEditable = false
     }
     @IBAction func cancel(_ sender: Any) {
         emotionview.isHidden = true

@@ -12,9 +12,11 @@ class TableViewCell2: UITableViewCell {
 
     @IBOutlet weak var emotionimage: UIImageView!
     @IBOutlet weak var percent: UILabel!
+    @IBOutlet weak var percentcolor: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -13,10 +13,12 @@ class TableViewCell: UITableViewCell {
     
       @IBOutlet weak var emotionImage: UIImageView!
       @IBOutlet weak var dateText: UILabel!
+     @IBOutlet weak var emotioncolorview: UIView!
+    @IBOutlet weak var yeartext: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

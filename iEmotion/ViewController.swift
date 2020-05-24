@@ -22,6 +22,12 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var settings: UIButton!
     @IBOutlet weak var statistics: UIButton!
     @IBOutlet weak var textboxview: UIView!
+    @IBOutlet weak var warningView: UIView!
+    @IBOutlet weak var warningText1: UILabel!
+    @IBOutlet weak var warningText2: UILabel!
+    @IBOutlet weak var warningText3: UILabel!
+    @IBOutlet weak var warningClose: UIButton!
+    
     var keyboardheight = CGRect()
     
     var emotioncontrol = false
@@ -34,16 +40,23 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var emotion = String()
     var emotionnumber = Int()
     let date = Date()
+    var dateArray = [String]()
+    var anddate = Int()
+    var today = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         
         self.title = " iEmotion"
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
         
+        UINavigationBar.appearance().tintColor = .white
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         
         textboxview.layer.cornerRadius = 20
         textboxview.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
@@ -67,6 +80,9 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         }
         EmotionScroll.contentSize = CGSize(width: (EmotionScroll.frame.size.width * CGFloat(EmotionsEmoji.count)), height: EmotionScroll.frame.size.height)
         EmotionScroll.delegate = self
+        
+        datecontrol()
+        warning()
     }
    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -79,57 +95,127 @@ class ViewController: UIViewController, UIScrollViewDelegate{
             }
         }
     }
+    
+    func datevsdate() {
+        if anddate == today {
+          /*  let alert = UIAlertController(title: "HER GÜN 1 EMO!", message: "Acele etme! Yeni emo için yarını beklemen gerekiyor.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "TAMAM", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil) */
+            warningView.isHidden = false
+            darkbackground.isHidden = false
+        }
+        else if anddate < today {
+            emotionactive()
+        }
+        else {}
+        
+    }
+    
+    
     @IBAction func EmotionAction(_ sender: Any) {
-        emotionactive()
+        datevsdate()
+        if anddate < today {
         emotion = "MUTLU"
         emotionnumber = 1
-        self.title = "Mutlu"
+        self.title = "mutlu"
+        }
     }
     @objc func ScrollTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         _ = tapGestureRecognizer.view as! UIScrollView
         
-        emotionactive()
-        
         let width = EmotionScroll.frame.width
         let page = Int(round(EmotionScroll.contentOffset.x/width))
         
-        if page == 1 {
-            emotion = "HAYAT DOLU"
-            emotionnumber = 2
-            self.title = "Hayat Dolu"
-        }
-        if page == 2 {
-            emotion = "NORMAL"
-            emotionnumber = 3
-            self.title = "Normal"
-        }
-        if page == 3 {
-            emotion = "KIZGIN"
-            emotionnumber = 4
-            self.title = "Kızgın"
-        }
-        if page == 4 {
-            emotion = "ÜZGÜN"
-            emotionnumber = 5
-            self.title = "Üzgün"
-        }
-        if page == 5 {
-            emotion = "ENDİŞELİ"
-            emotionnumber = 6
-            self.title = "Endişeli"
-        }
-        if page == 6 {
-            emotion = "AŞIK"
-            emotionnumber = 7
-            self.title = "Aşk"
-        }
-        if page == 7 {
-            emotion = "HEYECANLI"
-            emotionnumber = 8
-            self.title = "Heyecanlı"
+        datevsdate()
+        
+        if anddate < today {
+            if page == 1 {
+                emotion = "HAYAT DOLU"
+                emotionnumber = 2
+                self.title = "hayat dolu"
+            }
+            if page == 2 {
+                emotion = "NORMAL"
+                emotionnumber = 3
+                self.title = "normal"
+            }
+            if page == 3 {
+                emotion = "KIZGIN"
+                emotionnumber = 4
+                self.title = "kızgın"
+            }
+            if page == 4 {
+                emotion = "ÜZGÜN"
+                emotionnumber = 5
+                self.title = "üzgün"
+            }
+            if page == 5 {
+                emotion = "ENDİŞELİ"
+                emotionnumber = 6
+                self.title = "endişeli"
+            }
+            if page == 6 {
+                emotion = "AŞIK"
+                emotionnumber = 7
+                self.title = "aşk dolu"
+            }
+            if page == 7 {
+                emotion = "HEYECANLI"
+                emotionnumber = 8
+                self.title = "heyecanlı"
+            }
         }
 }
-    
+    func datecontrol() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emotion")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results as! [NSManagedObject] {
+                if let dates = result.value(forKey: "date") as? String {
+                    var dateArray2 = [String]()
+                    dateArray2.append(dates)
+                     dateArray = Array(dateArray2.reversed())
+                }
+            }
+        }
+        catch {
+        }
+        
+        // CoreData'ya kaydedilen son tarih...
+        if dateArray.isEmpty == false {
+            
+        }
+        else {
+            dateArray.append("2020-01-01 01:01:01")
+        }
+        let year = String(dateArray[0].prefix(4))
+        
+        let d1 = String.Index(encodedOffset: 8)
+        let day1 = String((dateArray[0])[d1])
+        let d2 = String.Index(encodedOffset: 9)
+        let day2 = String((dateArray[0])[d2])
+        let day3 = String("\(day1)\(day2)")
+        
+        let m1 = String.Index(encodedOffset: 5)
+        let moon1 = String((dateArray[0])[m1])
+        let m2 = String.Index(encodedOffset: 6)
+        let moon2 = String((dateArray[0])[m2])
+        let moon3 = String("\(moon1)\(moon2)")
+        let yearmoonday = ("\(year)\(moon3)\(day3)")
+        
+        anddate = Int(yearmoonday)!
+        //
+        // Bugünün tarihi 20200524 şeklinde...
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let datetime = dateFormatter.string(from: date as Date)
+        today = Int(datetime)!
+        //
+    }
     @IBAction func settingsaction(_ sender: Any) {
     }
     @IBAction func statisticsaction(_ sender: Any) {
@@ -158,6 +244,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         textboxokay.frame.origin.y += keyboardheight.height
         textboxcancel.frame.origin.y += keyboardheight.height
         self.title = "iEmotion"
+        datecontrol()
     }
     @IBAction func okay(_ sender: Any) {
         var emotiontxt = String(textboxtext.text)
@@ -208,6 +295,8 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         }
         textboxokay.frame.origin.y += keyboardheight.height
         textboxcancel.frame.origin.y += keyboardheight.height
+        
+        datecontrol()
     }
     
     
@@ -226,6 +315,20 @@ class ViewController: UIViewController, UIScrollViewDelegate{
             statistics.isUserInteractionEnabled = false
         }
         textboxtext.becomeFirstResponder()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        datecontrol()
+    }
+    
+    func warning() {
+        warningView.layer.cornerRadius = 30
+        warningView.layer.borderColor = UIColor.green.cgColor
+        warningView.layer.borderWidth = 3
+    }
+    @IBAction func warningCloseAction(_ sender: Any) {
+        warningView.isHidden = true
+        darkbackground.isHidden = true
     }
     
 }

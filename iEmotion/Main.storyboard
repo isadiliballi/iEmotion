@@ -8,6 +8,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-ExtraBold.otf">
+            <string>Montserrat-ExtraBold</string>
+        </array>
         <array key="Montserrat-Hairline.otf">
             <string>Montserrat-Hairline</string>
         </array>
@@ -17,9 +20,12 @@
         <array key="Montserrat-LightItalic.otf">
             <string>Montserrat-LightItalic</string>
         </array>
+        <array key="Montserrat-SemiBold.otf">
+            <string>Montserrat-SemiBold</string>
+        </array>
     </customFonts>
     <scenes>
-        <!--Günlük-->
+        <!--Statistics-->
         <scene sceneID="UXm-Y2-gMU">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="5X4-9D-prR" customClass="Statistics" customModule="iEmotion" customModuleProvider="target" sceneMemberID="viewController">
@@ -27,35 +33,87 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorInsetReference="fromAutomaticInsets" rowHeight="300" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LL1-RK-pnA">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" separatorInsetReference="fromAutomaticInsets" rowHeight="193" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LL1-RK-pnA">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" red="0.070589356120000002" green="0.070586778219999993" blue="0.070587284860000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="tqH-4N-J7J">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Günlük" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8D-mt-HTL">
+                                            <rect key="frame" x="8" y="49" width="153.5" height="65"/>
+                                            <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="65"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jhf-oJ-T98">
+                                            <rect key="frame" x="299" y="60" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="Gqv-Zu-pbW"/>
+                                                <constraint firstAttribute="width" constant="40" id="j0r-R4-5hc"/>
+                                            </constraints>
+                                            <state key="normal" image="istatistik"/>
+                                            <connections>
+                                                <action selector="istatistikgo:" destination="5X4-9D-prR" eventType="touchUpInside" id="GZ4-Bi-a1e"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.12109198948699286" green="0.12050700403053395" blue="0.12167697494345175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="tintColor" red="0.070589356120000002" green="0.070586778219999993" blue="0.070587284860000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <constraints>
+                                        <constraint firstItem="t8D-mt-HTL" firstAttribute="leading" secondItem="tqH-4N-J7J" secondAttribute="leading" constant="8" id="6S5-F9-I31"/>
+                                        <constraint firstItem="t8D-mt-HTL" firstAttribute="top" secondItem="tqH-4N-J7J" secondAttribute="top" constant="49" id="AWQ-yT-6dJ"/>
+                                        <constraint firstItem="Jhf-oJ-T98" firstAttribute="top" secondItem="tqH-4N-J7J" secondAttribute="top" constant="60" id="VN6-oU-0y3"/>
+                                        <constraint firstAttribute="trailing" secondItem="Jhf-oJ-T98" secondAttribute="trailing" constant="36" id="W4D-LF-gP1"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="emotion" rowHeight="300" id="z1u-D4-CuP" userLabel="emotion" customClass="TableViewCell" customModule="iEmotion" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="300"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="emotion" rowHeight="193" id="z1u-D4-CuP" userLabel="emotion" customClass="TableViewCell" customModule="iEmotion" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="147" width="375" height="193"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z1u-D4-CuP" id="bLZ-Jm-Et9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eX-dJ-P8O">
-                                                    <rect key="frame" x="112" y="44" width="150" height="150"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Izl-sI-Uvh">
-                                                    <rect key="frame" x="0.0" y="193" width="375" height="76"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="30"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0J-Jy-jbP">
+                                                    <rect key="frame" x="9" y="3" width="358" height="186"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eX-dJ-P8O">
+                                                            <rect key="frame" x="15" y="41" width="100" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Izl-sI-Uvh">
+                                                            <rect key="frame" x="123" y="66" width="221" height="51"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="40"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="xmI-nd-uA1">
+                                                            <rect key="frame" x="125" y="109" width="102" height="26"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="15"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <outlet property="dateText" destination="Izl-sI-Uvh" id="rb1-CH-SUi"/>
                                             <outlet property="emotionImage" destination="6eX-dJ-P8O" id="avt-7g-sa9"/>
+                                            <outlet property="emotioncolorview" destination="q0J-Jy-jbP" id="atL-VW-Gy2"/>
+                                            <outlet property="yeartext" destination="xmI-nd-uA1" id="BA7-NG-mXw"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -73,7 +131,7 @@
                                 <rect key="frame" x="0.0" y="78" width="375" height="589"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Bns-XZ-5GK">
+                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Bns-XZ-5GK">
                                         <rect key="frame" x="8" y="22" width="359" height="451"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -95,15 +153,17 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="4gd-K5-GjI"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Günlük" largeTitleDisplayMode="never" id="zdb-en-fs3"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="zdb-en-fs3"/>
                     <connections>
                         <outlet property="EmotionList" destination="LL1-RK-pnA" id="fh0-2b-nSa"/>
                         <outlet property="darkbackground" destination="zEP-OI-k2Y" id="Dtj-md-s0G"/>
                         <outlet property="emotioncancel" destination="Zkv-ce-zMi" id="8sy-tM-Zvq"/>
                         <outlet property="emotiontext" destination="Bns-XZ-5GK" id="UqS-p0-1Re"/>
                         <outlet property="emotionview" destination="a4j-uZ-BxR" id="HSb-0p-Ni7"/>
+                        <segue destination="sdl-Mv-lb6" kind="show" identifier="istatistik" id="o6N-TD-F3W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Go-xE-dqV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -114,17 +174,17 @@
         <scene sceneID="x7s-VS-3AI">
             <objects>
                 <navigationController id="K2Z-Ny-axF" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" backIndicatorImage="arrowshape.turn.up.left.fill" catalog="system" largeTitles="YES" id="BDn-7f-bkr">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="BDn-7f-bkr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.048282836294416209" green="0.048282836294416209" blue="0.048282836294416209" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Anydore" family="Anydore" pointSize="30"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="25"/>
+                            <color key="textColor" red="0.10196078431372549" green="0.10196078431372549" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
-                            <fontDescription key="fontDescription" name="Anydore" family="Anydore" pointSize="40"/>
+                            <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="40"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
@@ -204,22 +264,6 @@
                                 <rect key="frame" x="0.0" y="132" width="375" height="544"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKP-Ao-w6w">
-                                        <rect key="frame" x="197" y="480" width="55" height="55"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="okay"/>
-                                        <connections>
-                                            <action selector="okay:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="Msq-w6-TDm"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rpo-oj-RH8">
-                                        <rect key="frame" x="123" y="480" width="55" height="55"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="cancel"/>
-                                        <connections>
-                                            <action selector="cancel:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="LI6-j0-uRs"/>
-                                        </connections>
-                                    </button>
                                     <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Biraz anlatmak ister misin?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="R5H-zo-5Qz">
                                         <rect key="frame" x="16" y="8" width="343" height="453"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -228,6 +272,58 @@
                                         <fontDescription key="fontDescription" name="Montserrat-LightItalic" family="Montserrat" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKP-Ao-w6w">
+                                        <rect key="frame" x="197" y="469" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="okay"/>
+                                        <connections>
+                                            <action selector="okay:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="Msq-w6-TDm"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rpo-oj-RH8">
+                                        <rect key="frame" x="123" y="469" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="cancel"/>
+                                        <connections>
+                                            <action selector="cancel:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="LI6-j0-uRs"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C7X-S2-Q0o">
+                                <rect key="frame" x="44" y="192" width="286" height="282"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GÜNDE 1 EMO!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Haj-ta-6LJ">
+                                        <rect key="frame" x="67" y="35" width="153" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-ExtraBold" family="Montserrat" pointSize="20"/>
+                                        <color key="textColor" red="0.016682896671727655" green="0.69794971446700504" blue="0.0" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Acele Etme!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHv-Io-SP4">
+                                        <rect key="frame" x="81" y="79" width="124" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Yeni emo için yarını beklemen gerekiyor." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6t-BO-2EW">
+                                        <rect key="frame" x="23" y="112" width="240" height="51"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Hairline" family="Montserrat" pointSize="20"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-tV-rsh">
+                                        <rect key="frame" x="113" y="191" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="okay"/>
+                                        <connections>
+                                            <action selector="warningCloseAction:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="13a-Pi-D71"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -240,7 +336,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="iEmotion" id="Tp0-hL-bX0"/>
+                    <navigationItem key="navigationItem" title="iEmotion" largeTitleDisplayMode="always" id="Tp0-hL-bX0"/>
                     <connections>
                         <outlet property="EmotionPage" destination="Phr-Fg-fWX" id="Sy9-iU-o3H"/>
                         <outlet property="EmotionScroll" destination="o0h-VL-TBM" id="Aj1-Gu-ph4"/>
@@ -253,6 +349,11 @@
                         <outlet property="textboxokay" destination="bKP-Ao-w6w" id="VoR-N2-XBu"/>
                         <outlet property="textboxtext" destination="R5H-zo-5Qz" id="rOB-hW-VcJ"/>
                         <outlet property="textboxview" destination="f6k-HQ-g81" id="XpC-4u-m9O"/>
+                        <outlet property="warningClose" destination="UOM-tV-rsh" id="7rH-fp-4j3"/>
+                        <outlet property="warningText1" destination="Haj-ta-6LJ" id="kCn-Tl-8V7"/>
+                        <outlet property="warningText2" destination="VHv-Io-SP4" id="JRh-sS-OyQ"/>
+                        <outlet property="warningText3" destination="r6t-BO-2EW" id="sid-l1-rJ2"/>
+                        <outlet property="warningView" destination="C7X-S2-Q0o" id="RwW-GN-4uy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cQg-bs-TtB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -268,33 +369,64 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u4S-Uu-Ysf">
-                                <rect key="frame" x="0.0" y="92" width="375" height="575"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <rect key="frame" x="0.0" y="41" width="375" height="626"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="sectionIndexBackgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="E2Q-De-d7u">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="İstatistik" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVR-1b-3ti">
+                                            <rect key="frame" x="8" y="34" width="359" height="86"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="65"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="emotion2" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="emotion2" rowHeight="100" id="Z6N-A7-nch" userLabel="emotion" customClass="TableViewCell2" customModule="iEmotion" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="148" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Z6N-A7-nch" id="VFr-99-jgS">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="ifl-5h-8vA">
-                                                    <rect key="frame" x="8" y="6" width="208" height="92"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Hairline" family="Montserrat" pointSize="70"/>
-                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjH-Ns-8tc">
-                                                    <rect key="frame" x="224" y="12" width="80" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ex3-e5-YKa">
+                                                    <rect key="frame" x="8" y="4" width="359" height="92"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="ifl-5h-8vA">
+                                                            <rect key="frame" x="0.0" y="0.0" width="236" height="92"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" name="Montserrat-Hairline" family="Montserrat" pointSize="70"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjH-Ns-8tc">
+                                                            <rect key="frame" x="238" y="6" width="80" height="80"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="80" id="FN4-9I-4os"/>
+                                                                <constraint firstAttribute="height" constant="80" id="sDr-26-29e"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="cjH-Ns-8tc" secondAttribute="trailing" constant="49" id="ReC-me-z4Y"/>
+                                                <constraint firstAttribute="bottom" secondItem="cjH-Ns-8tc" secondAttribute="bottom" constant="10" id="die-7Z-WBs"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <outlet property="emotionimage" destination="cjH-Ns-8tc" id="E04-BY-EbB"/>
                                             <outlet property="percent" destination="ifl-5h-8vA" id="gTF-qE-I7i"/>
+                                            <outlet property="percentcolor" destination="Ex3-e5-YKa" id="X38-QA-z5A"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -304,40 +436,27 @@
                                     <outlet property="delegate" destination="sdl-Mv-lb6" id="Plp-Yd-car"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PYi-fn-aho">
-                                <rect key="frame" x="15" y="55" width="13" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="back"/>
-                                <connections>
-                                    <action selector="backaction:" destination="sdl-Mv-lb6" eventType="touchUpInside" id="Ijt-Ux-cJp"/>
-                                    <segue destination="5X4-9D-prR" kind="showDetail" id="RXZ-aF-e2b"/>
-                                </connections>
-                            </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" red="0.1210919895" green="0.120507004" blue="0.1216769749" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="stx-HG-P47"/>
                     </view>
                     <navigationItem key="navigationItem" id="BCp-bM-pHe"/>
                     <connections>
-                        <outlet property="back" destination="PYi-fn-aho" id="Ms4-0c-WNV"/>
                         <outlet property="emotionsTableView" destination="u4S-Uu-Ysf" id="oY9-ib-Tul"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rIu-A8-Sru" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2172" y="817"/>
+            <point key="canvasLocation" x="2172" y="816.34182908545733"/>
         </scene>
     </scenes>
     <resources>
-        <image name="arrowshape.turn.up.left.fill" catalog="system" width="64" height="52"/>
-        <image name="back" width="30.5" height="55.5"/>
         <image name="cancel" width="110" height="110"/>
         <image name="darkbackground" width="750" height="1334"/>
+        <image name="istatistik" width="92" height="92"/>
         <image name="okay" width="110" height="110"/>
         <image name="settings" width="452" height="452"/>
         <image name="statistics" width="452.5" height="452.5"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="RXZ-aF-e2b"/>
-    </inferredMetricsTieBreakers>
 </document>
