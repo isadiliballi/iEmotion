@@ -27,6 +27,9 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var warningText2: UILabel!
     @IBOutlet weak var warningText3: UILabel!
     @IBOutlet weak var warningClose: UIButton!
+    var touch = UIImageView()
+    var touchtext = UILabel()
+    var touchclose = UIButton()
     
     var keyboardheight = CGRect()
     
@@ -43,10 +46,10 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var dateArray = [String]()
     var anddate = Int()
     var today = Int()
+    var firstopentouchcontrol = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         
         self.title = " iEmotion"
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -83,6 +86,23 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         
         datecontrol()
         warning()
+        
+        
+        let firsopentouch = UserDefaults.standard.bool(forKey: "firstopentouch")
+        if firsopentouch  {
+            firstopentouchcontrol = UserDefaults.standard.object(forKey: "firstopentouchcontrol") as! Bool
+        }
+        else {
+            UserDefaults.standard.set(true, forKey: "firstopentouch")
+            UserDefaults.standard.set(firstopentouchcontrol, forKey: "firstopentouchcontrol")
+        }
+        
+        if firstopentouchcontrol == false {
+            firstopen()
+        }
+        else {
+            
+        }
     }
    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -98,9 +118,6 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     
     func datevsdate() {
         if anddate == today {
-          /*  let alert = UIAlertController(title: "HER GÜN 1 EMO!", message: "Acele etme! Yeni emo için yarını beklemen gerekiyor.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "TAMAM", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil) */
             warningView.isHidden = false
             darkbackground.isHidden = false
         }
@@ -329,6 +346,50 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     @IBAction func warningCloseAction(_ sender: Any) {
         warningView.isHidden = true
         darkbackground.isHidden = true
+    }
+    
+    func firstopen() {
+        EmotionsClick.isUserInteractionEnabled = false
+        EmotionScroll.isUserInteractionEnabled = false
+        statistics.isUserInteractionEnabled = false
+        settings.isUserInteractionEnabled = false
+        darkbackground.isHidden = false
+        darkbackground.alpha = 0.8
+        
+        let touchimage = UIImage(named: "firstopentouch")
+        touch = UIImageView(image: touchimage)
+        
+        let weight = touch.frame.width / 2
+        let height = touch.frame.height / 2
+        
+        touch.frame = CGRect(x: view.frame.width / 2 - weight / 2, y: view.frame.height / 2.5, width: weight, height: height)
+        self.view.addSubview(touch)
+        
+        touchtext = UILabel(frame: CGRect(x: 0, y: touch.frame.maxY, width: view.frame.width, height: 50))
+        touchtext.textAlignment = .center
+        touchtext.textColor = UIColor.white
+        touchtext.font = UIFont(name: "DIN Condensed", size: 30)
+        touchtext.text = "Sürükle ve Dokun"
+        self.view.addSubview(touchtext)
+        
+        touchclose = UIButton(frame: CGRect(x: 0, y: touchtext.frame.maxY, width: view.frame.width, height: 50))
+        touchclose.setTitleColor(.green, for: .normal)
+        touchclose.setTitle("TAMAM", for: .normal)
+        touchclose.titleLabel?.font = UIFont(name: "DIN Condensed", size: 50)
+        touchclose.addTarget(self, action: #selector(self.touchcloseaction), for: .touchUpInside)
+        self.view.addSubview(touchclose)
+    }
+    @objc func touchcloseaction(sender: UIButton!) {
+        EmotionsClick.isUserInteractionEnabled = true
+        EmotionScroll.isUserInteractionEnabled = true
+        statistics.isUserInteractionEnabled = true
+        settings.isUserInteractionEnabled = true
+        darkbackground.isHidden = true
+        touch.removeFromSuperview()
+        touchtext.removeFromSuperview()
+        touchclose.removeFromSuperview()
+        firstopentouchcontrol = true
+        UserDefaults.standard.set(firstopentouchcontrol, forKey: "firstopentouchcontrol")
     }
     
 }
