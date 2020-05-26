@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class ViewController: UIViewController, UIScrollViewDelegate{
 
@@ -48,9 +49,16 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var today = Int()
     var firstopentouchcontrol = false
     
+    let privateDatabase = CKContainer.default().privateCloudDatabase
+    var datecloud = [String]()
+    var idcloud = [String]()
+    var emotioncloud = [String]()
+    var emotiontextcloud = [String]()
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+     
         self.title = " iEmotion"
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
@@ -88,8 +96,9 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         warning()
         
         
-        let firsopentouch = UserDefaults.standard.bool(forKey: "firstopentouch")
-        if firsopentouch  {
+        
+        let firstopentouch = UserDefaults.standard.bool(forKey: "firstopentouch")
+        if firstopentouch  {
             firstopentouchcontrol = UserDefaults.standard.object(forKey: "firstopentouchcontrol") as! Bool
         }
         else {
@@ -103,8 +112,11 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         else {
             
         }
+        
+        
     }
    
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = scrollView.contentOffset.x / EmotionScroll.frame.size.width
         EmotionPage.currentPage = Int(pageNumber)
@@ -314,6 +326,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         textboxcancel.frame.origin.y += keyboardheight.height
         
         datecontrol()
+        cloudkit()
     }
     
     
@@ -348,6 +361,8 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         darkbackground.isHidden = true
     }
     
+    
+    
     func firstopen() {
         EmotionsClick.isUserInteractionEnabled = false
         EmotionScroll.isUserInteractionEnabled = false
@@ -378,7 +393,96 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         touchclose.titleLabel?.font = UIFont(name: "DIN Condensed", size: 50)
         touchclose.addTarget(self, action: #selector(self.touchcloseaction), for: .touchUpInside)
         self.view.addSubview(touchclose)
+        
+        // GET DATA <D1>
+        let recordID = CKRecord.ID(recordName: "1")
+        
+        privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
+            
+            if error == nil {
+                self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
+                
+                    if error == nil {
+                        self.datecloud = (updateRecord?["Date"])!
+                        
+                        self.idcloud = (updateRecord?["Id"])!
+                        
+                        self.emotioncloud = (updateRecord?["Emotion"])!
+                        
+                        self.emotiontextcloud = (updateRecord?["EmotionText"])!
+                        
+                        var counter = 0
+                        while true {
+                            counter += 1
+                            print(counter)
+                            
+                            
+                            if self.datecloud.isEmpty == false {
+                                return self.cloudfetchcoredatesave()
+                                break
+                                
+                            }
+                        }
+                        print("VERİLER ÇEKİLDİ")
+                    } else {
+                        print("HATA")
+                    }
+                    
+                })
+               
+            }
+                
+            else {
+                // CLOUDKIT SAVE <D3>
+                let recordName = CKRecord.ID(recordName: "1")
+                let cloudsave = CKRecord(recordType: "iEmotion", recordID: recordName)
+                self.privateDatabase.save(cloudsave) { (savedRecord, error) in
+                    if error == nil {
+                        print("SUCCESSFUL")
+                    }
+                    else {
+                        print("ERROR")
+                    }
+                }
+                
+                self.savecloud()
+    
+                // </D3>
+            }
+        }
+        // </D1>
+        
+         
     }
+    func cloudfetchcoredatesave() {
+        if datecloud.isEmpty == false {
+           print(datecloud)
+           print(idcloud)
+           print(emotioncloud)
+           print(emotiontextcloud)
+           
+           for i in 0...datecloud.count - 1 {
+               let appDelegate = UIApplication.shared.delegate as! AppDelegate
+               let context = appDelegate.persistentContainer.viewContext
+               let newEmotion = NSEntityDescription.insertNewObject(forEntityName: "Emotion", into: context)
+               
+               
+               newEmotion.setValue(emotioncloud[i], forKey: "emotion")
+               newEmotion.setValue(emotiontextcloud[i], forKey: "emotiontext")
+               newEmotion.setValue(datecloud[i], forKey: "date")
+               newEmotion.setValue(UUID(), forKey:"id")
+               
+               do {
+                   try context.save()
+                   print("COREDATA SAVE \(i)")
+               }
+               catch {
+               }
+           }
+        }
+    }
+    
+    
     @objc func touchcloseaction(sender: UIButton!) {
         EmotionsClick.isUserInteractionEnabled = true
         EmotionScroll.isUserInteractionEnabled = true
@@ -391,6 +495,95 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         firstopentouchcontrol = true
         UserDefaults.standard.set(firstopentouchcontrol, forKey: "firstopentouchcontrol")
     }
+    
+    func savecloud() {
+        let recordID = CKRecord.ID(recordName: "1")
+        self.privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
+            
+            if error == nil {
+                let dateA = ["2020-01-01 01-01-01"]
+                let emotionA = ["MUTLU"]
+                let emotiontextA = ["Gösterim amaçlı bir emo, silebilirsiniz!"]
+                let idA = [UUID()]
+                
+                updateRecord?.setValue(dateA, forKey: "Date")
+                updateRecord?.setValue(emotionA, forKey: "Emotion")
+                updateRecord?.setValue(idA, forKey: "Id")
+                updateRecord?.setValue(emotiontextA, forKey: "EmotionText")
+                
+                self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
+                    if error == nil {
+                        print("KAYDEDİLDİ")
+                    } else {
+                        print("HATA")
+                    }
+                })
+            } else {
+                print("KAYIT GETİRİLEMEDİ")
+            }
+        }
+    }
+    
+    func cloudkit() {
+        var cloudDate = [String]()
+        var cloudId = [String]()
+        var cloudEmotion = [String]()
+        var cloudEmotionText = [String]()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emotion")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results as! [NSManagedObject] {
+                if let date = result.value(forKey: "date") as? String {
+                    cloudDate.append(date)
+                }
+                if let id = result.value(forKey: "id") as? UUID {
+                    cloudId.append(id.uuidString)
+                }
+                if let emotion = result.value(forKey: "emotion") as? String {
+                    cloudEmotion.append(emotion)
+                }
+                if let emotiontext = result.value(forKey: "emotiontext") as? String {
+                    cloudEmotionText.append(emotiontext)
+                }
+            }
+        }
+        catch {
+        }
+        if cloudDate.isEmpty == false {
+            
+            }
+       
+        // DATE UPDATE <D2>
+        let recordID = CKRecord.ID(recordName: "1")
+        
+        privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
+            
+            if error == nil {
+                
+                updateRecord?.setValue(cloudDate, forKey: "Date")
+                updateRecord?.setValue(cloudEmotion, forKey: "Emotion")
+                updateRecord?.setValue(cloudId, forKey: "Id")
+                updateRecord?.setValue(cloudEmotionText, forKey: "EmotionText")
+        
+                self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
+                    if error == nil {
+                        print("KAYDEDİLDİ")
+                    } else {
+                        print("HATA")
+                    }
+                })
+            } else {
+                print("KAYIT GETİRİLEMEDİ")
+            }
+        }
+        // </D2>
+        }
+    
     
 }
 

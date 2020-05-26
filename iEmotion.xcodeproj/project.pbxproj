@@ -29,6 +29,7 @@
 		1E2FA29224709EC000C98256 /* Montserrat-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2FA27D24709EC000C98256 /* Montserrat-LightItalic.otf */; };
 		1E2FA29324709EC000C98256 /* Montserrat-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2FA27E24709EC000C98256 /* Montserrat-ExtraBoldItalic.otf */; };
 		1E2FA29424709EC000C98256 /* Montserrat-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2FA27F24709EC000C98256 /* Montserrat-SemiBoldItalic.otf */; };
+		1E75E62D247C3CF60002C505 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E75E62C247C3CF60002C505 /* CloudKit.framework */; };
 		1EA66CB524709CD1001A317F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA66CB424709CD1001A317F /* AppDelegate.swift */; };
 		1EA66CB724709CD1001A317F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA66CB624709CD1001A317F /* SceneDelegate.swift */; };
 		1EA66CB924709CD1001A317F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA66CB824709CD1001A317F /* ViewController.swift */; };
@@ -64,6 +65,8 @@
 		1E2FA27D24709EC000C98256 /* Montserrat-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-LightItalic.otf"; sourceTree = "<group>"; };
 		1E2FA27E24709EC000C98256 /* Montserrat-ExtraBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
 		1E2FA27F24709EC000C98256 /* Montserrat-SemiBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBoldItalic.otf"; sourceTree = "<group>"; };
+		1E75E62A247C3CE20002C505 /* iEmotion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iEmotion.entitlements; sourceTree = "<group>"; };
+		1E75E62C247C3CF60002C505 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		1EA66CB124709CD1001A317F /* iEmotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iEmotion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EA66CB424709CD1001A317F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EA66CB624709CD1001A317F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E75E62D247C3CF60002C505 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,11 +121,20 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		1E75E62B247C3CF60002C505 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E75E62C247C3CF60002C505 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1EA66CA824709CD1001A317F = {
 			isa = PBXGroup;
 			children = (
 				1EA66CB324709CD1001A317F /* iEmotion */,
 				1EA66CB224709CD1001A317F /* Products */,
+				1E75E62B247C3CF60002C505 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +149,7 @@
 		1EA66CB324709CD1001A317F /* iEmotion */ = {
 			isa = PBXGroup;
 			children = (
+				1E75E62A247C3CE20002C505 /* iEmotion.entitlements */,
 				1EA66CB424709CD1001A317F /* AppDelegate.swift */,
 				1EA66CB624709CD1001A317F /* SceneDelegate.swift */,
 				1EA66CB824709CD1001A317F /* ViewController.swift */,
@@ -388,6 +402,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iEmotion/iEmotion.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Q3BR6HQNK;
 				INFOPLIST_FILE = iEmotion/Info.plist;
@@ -407,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iEmotion/iEmotion.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Q3BR6HQNK;
 				INFOPLIST_FILE = iEmotion/Info.plist;
