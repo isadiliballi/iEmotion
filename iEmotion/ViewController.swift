@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import CloudKit
+import Network
 
 class ViewController: UIViewController, UIScrollViewDelegate{
 
@@ -55,10 +56,11 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var emotioncloud = [String]()
     var emotiontextcloud = [String]()
   
+    let monitor = NWPathMonitor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+    
         self.title = " iEmotion"
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
@@ -410,20 +412,30 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                         self.emotioncloud = (updateRecord?["Emotion"])!
                         
                         self.emotiontextcloud = (updateRecord?["EmotionText"])!
+                        print("VERİLER ÇEKİLDİ")
                         
-                        var counter = 0
-                        while true {
-                            counter += 1
-                            print(counter)
-                            
-                            
-                            if self.datecloud.isEmpty == false {
-                                return self.cloudfetchcoredatesave()
-                                break
+                        self.monitor.pathUpdateHandler = { path in
+                            if path.status == .satisfied {
+                                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                    print("İNTERNET VAR")
+                                    var counter = 0
+                                    while true {
+                                        counter += 1
+                                        if self.datecloud.isEmpty == false {
+                                            return self.cloudfetchcoredatesave()
+                                            break
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            else {
+                                print("İNTERNET YOK")
                                 
                             }
                         }
-                        print("VERİLER ÇEKİLDİ")
+                        let queue = DispatchQueue(label: "Monitor")
+                        self.monitor.start(queue: queue)
                     } else {
                         print("HATA")
                     }
@@ -439,14 +451,14 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                 self.privateDatabase.save(cloudsave) { (savedRecord, error) in
                     if error == nil {
                         print("SUCCESSFUL")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.savecloud()
+                        }
                     }
                     else {
                         print("ERROR")
                     }
                 }
-                
-                self.savecloud()
-    
                 // </D3>
             }
         }
@@ -504,7 +516,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                 let dateA = ["2020-01-01 01-01-01"]
                 let emotionA = ["MUTLU"]
                 let emotiontextA = ["Gösterim amaçlı bir emo, silebilirsiniz!"]
-                let idA = [UUID()]
+                let idA = [UUID().uuidString]
                 
                 updateRecord?.setValue(dateA, forKey: "Date")
                 updateRecord?.setValue(emotionA, forKey: "Emotion")

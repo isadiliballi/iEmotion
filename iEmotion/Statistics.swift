@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -37,6 +38,8 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var worriedColor = UIColor.init(displayP3Red: 0, green: 255, blue: 255, alpha: 1)
     var loveColor = UIColor.red
     var excitedColor = UIColor.init(displayP3Red: 128, green: 0, blue: 128, alpha: 1)
+    
+     let privateDatabase = CKContainer.default().privateCloudDatabase
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -232,6 +235,7 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
                                 EmotionList.reloadData()
                                 do {
                                 try context.save()
+                                    cloudkit()
                                 }
                                 catch {
                                     
@@ -245,6 +249,96 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
             }
             
+        }
+    }
+    func cloudkit() {
+     var cloudDate = [String]()
+     var cloudId = [String]()
+     var cloudEmotion = [String]()
+     var cloudEmotionText = [String]()
+     
+     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+     let context = appDelegate.persistentContainer.viewContext
+     
+     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emotion")
+     fetchRequest.returnsObjectsAsFaults = false
+     do {
+         let results = try context.fetch(fetchRequest)
+         for result in results as! [NSManagedObject] {
+             if let date = result.value(forKey: "date") as? String {
+                 cloudDate.append(date)
+             }
+             if let id = result.value(forKey: "id") as? UUID {
+                 cloudId.append(id.uuidString)
+             }
+             if let emotion = result.value(forKey: "emotion") as? String {
+                 cloudEmotion.append(emotion)
+             }
+             if let emotiontext = result.value(forKey: "emotiontext") as? String {
+                 cloudEmotionText.append(emotiontext)
+             }
+         }
+     }
+     catch {
+     }
+     if cloudDate.isEmpty == false {
+        print("DOLU")
+         // DATE UPDATE <D2>
+         let recordID = CKRecord.ID(recordName: "1")
+         
+         privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
+             
+             if error == nil {
+                 
+                 updateRecord?.setValue(cloudDate, forKey: "Date")
+                 updateRecord?.setValue(cloudEmotion, forKey: "Emotion")
+                 updateRecord?.setValue(cloudId, forKey: "Id")
+                 updateRecord?.setValue(cloudEmotionText, forKey: "EmotionText")
+         
+                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
+                     if error == nil {
+                         print("KAYDEDİLDİ")
+                     } else {
+                         print("HATA")
+                     }
+                 })
+             } else {
+                 print("KAYIT GETİRİLEMEDİ")
+             }
+         }
+         // </D2>
+         }
+     else {
+        print("BOŞ")
+            savecloud()
+        }
+     }
+    
+    func savecloud() {
+        let recordID = CKRecord.ID(recordName: "1")
+        self.privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
+            
+            if error == nil {
+                let dateA = ["2020-01-01 01-01-01"]
+                let emotionA = ["MUTLU"]
+                let emotiontextA = ["Gösterim amaçlı bir emo, silebilirsiniz!"]
+                let idA = [UUID().uuidString]
+                
+                updateRecord?.setValue(dateA, forKey: "Date")
+                updateRecord?.setValue(emotionA, forKey: "Emotion")
+                updateRecord?.setValue(idA, forKey: "Id")
+                updateRecord?.setValue(emotiontextA, forKey: "EmotionText")
+                
+                self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
+                    if error == nil {
+                        print("KAYDEDİLDİ")
+                    } else {
+                        print("HATA")
+                    }
+                })
+            } else {
+                print("KAYIT GETİRİLEMEDİ")
+            }
         }
     }
 }
