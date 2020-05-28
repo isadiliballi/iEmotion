@@ -61,6 +61,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        
         self.title = " iEmotion"
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
@@ -82,10 +83,10 @@ class ViewController: UIViewController, UIScrollViewDelegate{
             EmotionScroll.isUserInteractionEnabled = true
             EmotionScroll.addGestureRecognizer(tapGestureRecognizer)
         
-        var frame = CGRect(x: view.frame.width / 2 - 100, y: 100, width: 200, height: 200)
+        var frame = CGRect(x: view.frame.width / 2 - Emotions.frame.width / 2, y: Emotions.frame.origin.y, width: Emotions.frame.width, height: Emotions.frame.width)
         EmotionPage.numberOfPages = EmotionsEmoji.count
         for index in 0..<EmotionsEmoji.count {
-            frame.origin.x = EmotionScroll.frame.size.width * CGFloat(index) + 87.5
+            frame.origin.x = (EmotionScroll.frame.size.width * CGFloat(index)) + view.frame.width / 2 - Emotions.frame.width / 2
     
             let imgView = UIImageView(frame: frame)
             imgView.image = UIImage(named: EmotionsEmoji[index])
@@ -355,7 +356,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     
     func warning() {
         warningView.layer.cornerRadius = 30
-        warningView.layer.borderColor = UIColor.green.cgColor
+        warningView.layer.borderColor = UIColor.red.cgColor
         warningView.layer.borderWidth = 3
     }
     @IBAction func warningCloseAction(_ sender: Any) {
