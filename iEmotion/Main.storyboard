@@ -82,7 +82,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0J-Jy-jbP">
-                                                    <rect key="frame" x="9" y="2" width="358" height="186"/>
+                                                    <rect key="frame" x="8" y="2" width="376" height="186"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eX-dJ-P8O">
@@ -273,7 +273,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKP-Ao-w6w">
-                                        <rect key="frame" x="197" y="469" width="55" height="55"/>
+                                        <rect key="frame" x="254" y="469" width="55" height="55"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="okay"/>
                                         <connections>
@@ -281,11 +281,27 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rpo-oj-RH8">
-                                        <rect key="frame" x="123" y="469" width="55" height="55"/>
+                                        <rect key="frame" x="65" y="469" width="55" height="55"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="cancel"/>
                                         <connections>
                                             <action selector="cancel:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="LI6-j0-uRs"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIn-rR-AQF">
+                                        <rect key="frame" x="128" y="469" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="photoadd"/>
+                                        <connections>
+                                            <action selector="photoadd:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="nva-07-Byh"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y9P-gJ-6X5">
+                                        <rect key="frame" x="191" y="469" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="soundadd"/>
+                                        <connections>
+                                            <action selector="soundadd:" destination="zSZ-FI-Wv4" eventType="touchUpInside" id="5ei-Lt-Ldu"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -347,6 +363,8 @@
                         <outlet property="statistics" destination="xmm-Ad-Ncq" id="Vr3-Vn-ufY"/>
                         <outlet property="textboxcancel" destination="Rpo-oj-RH8" id="RgB-S6-aU0"/>
                         <outlet property="textboxokay" destination="bKP-Ao-w6w" id="VoR-N2-XBu"/>
+                        <outlet property="textboxphoto" destination="qIn-rR-AQF" id="viQ-Vb-uyI"/>
+                        <outlet property="textboxsound" destination="Y9P-gJ-6X5" id="TjS-zD-zLk"/>
                         <outlet property="textboxtext" destination="R5H-zo-5Qz" id="rOB-hW-VcJ"/>
                         <outlet property="textboxview" destination="f6k-HQ-g81" id="XpC-4u-m9O"/>
                         <outlet property="warningClose" destination="UOM-tV-rsh" id="7rH-fp-4j3"/>
@@ -396,7 +414,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ex3-e5-YKa">
-                                                    <rect key="frame" x="8" y="4" width="359" height="92"/>
+                                                    <rect key="frame" x="8" y="4" width="375" height="92"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjH-Ns-8tc">
@@ -456,7 +474,9 @@
         <image name="darkbackground" width="750" height="1334"/>
         <image name="istatistik" width="92" height="92"/>
         <image name="okay" width="110" height="110"/>
+        <image name="photoadd" width="110" height="110"/>
         <image name="settings" width="452" height="452"/>
+        <image name="soundadd" width="110" height="110"/>
         <image name="statistics" width="452.5" height="452.5"/>
     </resources>
 </document>
