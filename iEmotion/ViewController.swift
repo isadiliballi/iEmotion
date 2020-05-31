@@ -10,9 +10,8 @@ import UIKit
 import CoreData
 import CloudKit
 import Network
-//import AVFoundation
 
-class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class ViewController: UIViewController, UIScrollViewDelegate{
 
     @IBOutlet weak var EmotionScroll: UIScrollView!
     @IBOutlet weak var Emotions: UIImageView!
@@ -22,8 +21,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
     @IBOutlet weak var textboxtext: UITextView!
     @IBOutlet weak var textboxcancel: UIButton!
     @IBOutlet weak var textboxokay: UIButton!
-    @IBOutlet weak var textboxphoto: UIButton!
-    @IBOutlet weak var textboxsound: UIButton!
     @IBOutlet weak var settings: UIButton!
     @IBOutlet weak var statistics: UIButton!
     @IBOutlet weak var textboxview: UIView!
@@ -61,12 +58,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
   
     let monitor = NWPathMonitor()
     
-    let galleryphoto:UIImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        
+        let back = NotificationCenter.default
+        back.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
         self.title = " iEmotion"
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
@@ -257,48 +254,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
     }
     @IBAction func statisticsaction(_ sender: Any) {
     }
-    @IBAction func photoadd(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
-        present(pickerController, animated: true, completion: nil)
-        
-        let positionY = view.frame.height
-        let height = textboxokay.frame.height / 2
-        textboxokay.frame.origin.y = positionY + height
-        textboxcancel.frame.origin.y = positionY + height
-        textboxphoto.frame.origin.y = positionY + height
-        textboxsound.frame.origin.y = positionY + height
-    }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            galleryphoto.contentMode = UIView.ContentMode.scaleAspectFill
-            galleryphoto.image = pickedImage
-            galleryphoto.layer.borderWidth = 2
-            galleryphoto.layer.cornerRadius = 0
-            galleryphoto.layer.borderColor = UIColor.black.cgColor
-            view.addSubview(galleryphoto)
-        }
-        print("FOTOĞRAF SEÇİLDİ.")
-        dismiss(animated: true, completion: nil)
-        textboxtext.becomeFirstResponder()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.galleryphoto.frame = CGRect(x: 20, y: 0, width: 70, height: 70)
-            print(self.textboxokay.frame.origin.y)
-            print(self.textboxokay.frame.minY)
-            print(self.galleryphoto.frame.origin.y)
-        }
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-        textboxtext.becomeFirstResponder()
-    }
-    
-    
-    @IBAction func soundadd(_ sender: Any) {
-    }
-    
+  
     @IBAction func cancel(_ sender: Any) {
         emotioncontrol = false
         if emotioncontrol == false {
@@ -307,8 +263,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
             textboxtext.isHidden = true
             textboxokay.isHidden = true
             textboxcancel.isHidden = true
-            textboxphoto.isHidden = true
-            textboxsound.isHidden = true
             
             EmotionScroll.isUserInteractionEnabled = true
             EmotionsClick.isUserInteractionEnabled = true
@@ -323,8 +277,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
         
         textboxokay.frame.origin.y += keyboardheight.height
         textboxcancel.frame.origin.y += keyboardheight.height
-        textboxphoto.frame.origin.y += keyboardheight.height
-        textboxsound.frame.origin.y += keyboardheight.height
         self.title = "iEmotion"
         datecontrol()
     }
@@ -354,8 +306,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
             textboxtext.isHidden = true
             textboxokay.isHidden = true
             textboxcancel.isHidden = true
-            textboxphoto.isHidden = true
-            textboxsound.isHidden = true
             EmotionScroll.isUserInteractionEnabled = true
             EmotionsClick.isUserInteractionEnabled = true
             settings.isUserInteractionEnabled = true
@@ -379,8 +329,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
         }
         textboxokay.frame.origin.y += keyboardheight.height
         textboxcancel.frame.origin.y += keyboardheight.height
-        textboxphoto.frame.origin.y += keyboardheight.height
-        textboxsound.frame.origin.y += keyboardheight.height
         
         datecontrol()
         cloudkit()
@@ -395,8 +343,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
             textboxtext.isHidden = false
             textboxokay.isHidden = false
             textboxcancel.isHidden = false
-            textboxphoto.isHidden = false
-            textboxsound.isHidden = false
             
             EmotionScroll.isUserInteractionEnabled = false
             EmotionsClick.isUserInteractionEnabled = false
@@ -652,8 +598,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
         }
         // </D2>
         }
-    
-    
+    @objc func appMovedToBackground() {
+        let positionY = view.frame.height
+               let height = textboxokay.frame.height
+               textboxokay.frame.origin.y = positionY + height
+               textboxcancel.frame.origin.y = positionY + height
+    }
 }
 
 
@@ -692,8 +642,6 @@ extension ViewController: UITextViewDelegate {
                 keyboardheight = keyboardSize
                 self.textboxokay.frame.origin.y -= keyboardSize.height
                 self.textboxcancel.frame.origin.y -= keyboardSize.height
-                self.textboxphoto.frame.origin.y -= keyboardSize.height
-                self.textboxsound.frame.origin.y -= keyboardSize.height
                 textboxtext.frame.size = CGSize(width: textboxtext.frame.width, height: textboxokay.frame.minY - textboxokay.frame.width / 2)
             }
         }
@@ -704,8 +652,6 @@ extension ViewController: UITextViewDelegate {
         let height = textboxokay.frame.height / 2
         textboxokay.frame.origin.y = positionY + height
         textboxcancel.frame.origin.y = positionY + height
-        textboxphoto.frame.origin.y = positionY + height
-        textboxsound.frame.origin.y = positionY + height
     }
     }
 }
