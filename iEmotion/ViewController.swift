@@ -12,7 +12,7 @@ import CloudKit
 import Network
 
 class ViewController: UIViewController, UIScrollViewDelegate{
-
+    
     @IBOutlet weak var EmotionScroll: UIScrollView!
     @IBOutlet weak var Emotions: UIImageView!
     @IBOutlet weak var EmotionsClick: UIButton!
@@ -55,13 +55,13 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var idcloud = [String]()
     var emotioncloud = [String]()
     var emotiontextcloud = [String]()
-  
+    
     let monitor = NWPathMonitor()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         let back = NotificationCenter.default
         back.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
         self.title = " iEmotion"
@@ -82,14 +82,14 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         textboxtext.selectedTextRange = textboxtext.textRange(from: textboxtext.beginningOfDocument, to: textboxtext.beginningOfDocument)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ScrollTapped(tapGestureRecognizer:)))
-            EmotionScroll.isUserInteractionEnabled = true
-            EmotionScroll.addGestureRecognizer(tapGestureRecognizer)
+        EmotionScroll.isUserInteractionEnabled = true
+        EmotionScroll.addGestureRecognizer(tapGestureRecognizer)
         
         var frame = CGRect(x: view.frame.width / 2 - Emotions.frame.width / 2, y: Emotions.frame.origin.y, width: Emotions.frame.width, height: Emotions.frame.width)
         EmotionPage.numberOfPages = EmotionsEmoji.count
         for index in 0..<EmotionsEmoji.count {
             frame.origin.x = (EmotionScroll.frame.size.width * CGFloat(index)) + view.frame.width / 2 - Emotions.frame.width / 2
-    
+            
             let imgView = UIImageView(frame: frame)
             imgView.image = UIImage(named: EmotionsEmoji[index])
             self.EmotionScroll.addSubview(imgView)
@@ -120,7 +120,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         
         
     }
-   
+    
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = scrollView.contentOffset.x / EmotionScroll.frame.size.width
@@ -135,6 +135,15 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     
     func datevsdate() {
         if anddate == today {
+            UIView.animate(withDuration: 0.2,
+                           animations: {
+                            self.warningView.transform = CGAffineTransform(scaleX: 0, y: 0)
+            },
+                           completion: { _ in
+                            UIView.animate(withDuration: 0.2) {
+                                self.warningView.transform = CGAffineTransform.identity
+                            }
+            })
             warningView.isHidden = false
             darkbackground.isHidden = false
         }
@@ -149,9 +158,9 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     @IBAction func EmotionAction(_ sender: Any) {
         datevsdate()
         if anddate < today {
-        emotion = "MUTLU"
-        emotionnumber = 1
-        self.title = "mutlu"
+            emotion = "MUTLU"
+            emotionnumber = 1
+            self.title = "mutlu"
         }
     }
     @objc func ScrollTapped(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -199,7 +208,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                 self.title = "heyecanlı"
             }
         }
-}
+    }
     func datecontrol() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -212,7 +221,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                 if let dates = result.value(forKey: "date") as? String {
                     var dateArray2 = [String]()
                     dateArray2.append(dates)
-                     dateArray = Array(dateArray2.reversed())
+                    dateArray = Array(dateArray2.reversed())
                 }
             }
         }
@@ -254,7 +263,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     }
     @IBAction func statisticsaction(_ sender: Any) {
     }
-  
+    
     @IBAction func cancel(_ sender: Any) {
         emotioncontrol = false
         if emotioncontrol == false {
@@ -317,9 +326,19 @@ class ViewController: UIViewController, UIScrollViewDelegate{
             successful.center = view.center
             view.addSubview(successful)
             
+            UIView.animate(withDuration: 0.5,
+                           animations: {
+                            successful.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            },
+                           completion: { _ in
+                            UIView.animate(withDuration: 0.5) {
+                                successful.transform = CGAffineTransform.identity
+                            }
+            })
+            
             textboxtext.resignFirstResponder()
             
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.title = "iEmotion"
                 self.darkbackground.isHidden = true
                 successful.removeFromSuperview()
@@ -362,8 +381,19 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         warningView.layer.borderWidth = 3
     }
     @IBAction func warningCloseAction(_ sender: Any) {
-        warningView.isHidden = true
-        darkbackground.isHidden = true
+        UIView.animate(withDuration: 0.2,
+                       animations: {
+                        self.warningView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        },
+                       completion: { _ in
+                        UIView.animate(withDuration: 0.2) {
+                            self.warningView.transform = CGAffineTransform.identity
+                        }
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.warningView.isHidden = true
+            self.darkbackground.isHidden = true
+        }
     }
     
     
@@ -406,7 +436,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
             
             if error == nil {
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
-                
+                    
                     if error == nil {
                         self.datecloud = (updateRecord?["Date"])!
                         
@@ -444,7 +474,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                     }
                     
                 })
-               
+                
             }
                 
             else {
@@ -467,33 +497,33 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         }
         // </D1>
         
-         
+        
     }
     func cloudfetchcoredatesave() {
         if datecloud.isEmpty == false {
-           print(datecloud)
-           print(idcloud)
-           print(emotioncloud)
-           print(emotiontextcloud)
-           
-           for i in 0...datecloud.count - 1 {
-               let appDelegate = UIApplication.shared.delegate as! AppDelegate
-               let context = appDelegate.persistentContainer.viewContext
-               let newEmotion = NSEntityDescription.insertNewObject(forEntityName: "Emotion", into: context)
-               
-               
-               newEmotion.setValue(emotioncloud[i], forKey: "emotion")
-               newEmotion.setValue(emotiontextcloud[i], forKey: "emotiontext")
-               newEmotion.setValue(datecloud[i], forKey: "date")
-               newEmotion.setValue(UUID(), forKey:"id")
-               
-               do {
-                   try context.save()
-                   print("COREDATA SAVE \(i)")
-               }
-               catch {
-               }
-           }
+            print(datecloud)
+            print(idcloud)
+            print(emotioncloud)
+            print(emotiontextcloud)
+            
+            for i in 0...datecloud.count - 1 {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let newEmotion = NSEntityDescription.insertNewObject(forEntityName: "Emotion", into: context)
+                
+                
+                newEmotion.setValue(emotioncloud[i], forKey: "emotion")
+                newEmotion.setValue(emotiontextcloud[i], forKey: "emotiontext")
+                newEmotion.setValue(datecloud[i], forKey: "date")
+                newEmotion.setValue(UUID(), forKey:"id")
+                
+                do {
+                    try context.save()
+                    print("COREDATA SAVE \(i)")
+                }
+                catch {
+                }
+            }
         }
     }
     
@@ -571,8 +601,8 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         }
         if cloudDate.isEmpty == false {
             
-            }
-       
+        }
+        
         // DATE UPDATE <D2>
         let recordID = CKRecord.ID(recordName: "1")
         
@@ -584,7 +614,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
                 updateRecord?.setValue(cloudEmotion, forKey: "Emotion")
                 updateRecord?.setValue(cloudId, forKey: "Id")
                 updateRecord?.setValue(cloudEmotionText, forKey: "EmotionText")
-        
+                
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
                     if error == nil {
                         print("KAYDEDİLDİ")
@@ -597,13 +627,14 @@ class ViewController: UIViewController, UIScrollViewDelegate{
             }
         }
         // </D2>
-        }
+    }
     @objc func appMovedToBackground() {
         let positionY = view.frame.height
-               let height = textboxokay.frame.height
-               textboxokay.frame.origin.y = positionY + height
-               textboxcancel.frame.origin.y = positionY + height
+        let height = textboxokay.frame.height
+        textboxokay.frame.origin.y = positionY + height
+        textboxcancel.frame.origin.y = positionY + height
     }
+    
 }
 
 
@@ -647,11 +678,11 @@ extension ViewController: UITextViewDelegate {
         }
     }
     @objc func keyboardWillHide(notification: NSNotification) {
-    if self.view.frame.origin.y != 0 {
-        let positionY = view.frame.height
-        let height = textboxokay.frame.height / 2
-        textboxokay.frame.origin.y = positionY + height
-        textboxcancel.frame.origin.y = positionY + height
-    }
+        if self.view.frame.origin.y != 0 {
+            let positionY = view.frame.height
+            let height = textboxokay.frame.height / 2
+            textboxokay.frame.origin.y = positionY + height
+            textboxcancel.frame.origin.y = positionY + height
+        }
     }
 }

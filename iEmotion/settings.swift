@@ -29,13 +29,13 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI İCLOUD'A YEDEKLE","İCLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
     var backcolor = [UIColor.init(displayP3Red: 40/255, green: 196/255, blue: 1/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 139/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 81/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 0/255, blue: 135/255, alpha: 1),UIColor.init(displayP3Red: 232/255, green: 0/255, blue: 255/255, alpha: 1)]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
-       
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,7 +43,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = tableView.dequeueReusableCell(withIdentifier: "setting") as! settingsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "setting") as! settingsTableViewCell
         cell.backtext.text = text[indexPath.row]
         cell.back.backgroundColor = UIColor.black
         cell.back.layer.cornerRadius = 15
@@ -77,103 +77,130 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     func cloudkitsave() {
-     var cloudDate = [String]()
-     var cloudId = [String]()
-     var cloudEmotion = [String]()
-     var cloudEmotionText = [String]()
-     
-     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-     let context = appDelegate.persistentContainer.viewContext
-     
-     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emotion")
-     fetchRequest.returnsObjectsAsFaults = false
-     do {
-         let results = try context.fetch(fetchRequest)
-         for result in results as! [NSManagedObject] {
-             if let date = result.value(forKey: "date") as? String {
-                 cloudDate.append(date)
-             }
-             if let id = result.value(forKey: "id") as? UUID {
-                 cloudId.append(id.uuidString)
-             }
-             if let emotion = result.value(forKey: "emotion") as? String {
-                 cloudEmotion.append(emotion)
-             }
-             if let emotiontext = result.value(forKey: "emotiontext") as? String {
-                 cloudEmotionText.append(emotiontext)
-             }
-         }
-     }
-     catch {
-     }
-     if cloudDate.isEmpty == false {
-         
-         }
-    
-     // DATE UPDATE <D2>
-     let recordID = CKRecord.ID(recordName: "1")
-     
-     privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
-         
-         if error == nil {
-             
-             updateRecord?.setValue(cloudDate, forKey: "Date")
-             updateRecord?.setValue(cloudEmotion, forKey: "Emotion")
-             updateRecord?.setValue(cloudId, forKey: "Id")
-             updateRecord?.setValue(cloudEmotionText, forKey: "EmotionText")
-     
-             self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
-                 if error == nil {
-                     print("KAYDEDİLDİ")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        var cloudDate = [String]()
+        var cloudId = [String]()
+        var cloudEmotion = [String]()
+        var cloudEmotionText = [String]()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emotion")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results as! [NSManagedObject] {
+                if let date = result.value(forKey: "date") as? String {
+                    cloudDate.append(date)
+                }
+                if let id = result.value(forKey: "id") as? UUID {
+                    cloudId.append(id.uuidString)
+                }
+                if let emotion = result.value(forKey: "emotion") as? String {
+                    cloudEmotion.append(emotion)
+                }
+                if let emotiontext = result.value(forKey: "emotiontext") as? String {
+                    cloudEmotionText.append(emotiontext)
+                }
+            }
+        }
+        catch {
+        }
+        if cloudDate.isEmpty == false {
+            
+        }
+        
+        // DATE UPDATE <D2>
+        let recordID = CKRecord.ID(recordName: "1")
+        
+        privateDatabase.fetch(withRecordID: recordID) { (updateRecord, error) in
+            
+            if error == nil {
+                
+                updateRecord?.setValue(cloudDate, forKey: "Date")
+                updateRecord?.setValue(cloudEmotion, forKey: "Emotion")
+                updateRecord?.setValue(cloudId, forKey: "Id")
+                updateRecord?.setValue(cloudEmotionText, forKey: "EmotionText")
+                
+                self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
+                    if error == nil {
+                        print("KAYDEDİLDİ")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.bluractivity.stopAnimating()
+                            self.blur.isHidden = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            let successful = UIImageView(image: UIImage(named: "okay")!)
+                            successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
+                            successful.center = self.view.center
+                            self.view.addSubview(successful)
+                            UIView.animate(withDuration: 0.2,
+                                           animations: {
+                                            successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                            },
+                                           completion: { _ in
+                                            UIView.animate(withDuration: 0.2) {
+                                                successful.transform = CGAffineTransform.identity
+                                            }
+                            })
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                successful.removeFromSuperview()
+                            }
+                        }
+                    } else {
+                        print("HATA")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.bluractivity.stopAnimating()
+                            self.blur.isHidden = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            let successful = UIImageView(image: UIImage(named: "cancel")!)
+                            successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
+                            successful.center = self.view.center
+                            self.view.addSubview(successful)
+                            UIView.animate(withDuration: 0.2,
+                                           animations: {
+                                            successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                            },
+                                           completion: { _ in
+                                            UIView.animate(withDuration: 0.2) {
+                                                successful.transform = CGAffineTransform.identity
+                                            }
+                            })
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                successful.removeFromSuperview()
+                            }
+                        }
+                    }
+                })
+            } else {
+                print("KAYIT GETİRİLEMEDİ")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.bluractivity.stopAnimating()
                     self.blur.isHidden = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    let successful = UIImageView(image: UIImage(named: "okay")!)
-                    successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
-                    successful.center = self.view.center
-                    self.view.addSubview(successful)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                   successful.removeFromSuperview()
-                               }
-                    }
-                 } else {
-                     print("HATA")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.bluractivity.stopAnimating()
-                    self.blur.isHidden = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     let successful = UIImageView(image: UIImage(named: "cancel")!)
                     successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
                     successful.center = self.view.center
                     self.view.addSubview(successful)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                   successful.removeFromSuperview()
-                               }
+                    UIView.animate(withDuration: 0.2,
+                                   animations: {
+                                    successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    },
+                                   completion: { _ in
+                                    UIView.animate(withDuration: 0.2) {
+                                        successful.transform = CGAffineTransform.identity
+                                    }
+                    })
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        successful.removeFromSuperview()
+                    }
                 }
-                 }
-             })
-         } else {
-             print("KAYIT GETİRİLEMEDİ")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.bluractivity.stopAnimating()
-            self.blur.isHidden = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            let successful = UIImageView(image: UIImage(named: "cancel")!)
-            successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
-            successful.center = self.view.center
-            self.view.addSubview(successful)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                           successful.removeFromSuperview()
-                       }
-            }
-         }
-     }
-     // </D2>
-     }
+        }
+        // </D2>
+    }
     
     func cloudkitfetch() {
         let recordID = CKRecord.ID(recordName: "1")
@@ -182,7 +209,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if error == nil {
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
-                
+                    
                     if error == nil {
                         self.datecloud = (updateRecord?["Date"])!
                         
@@ -209,17 +236,26 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
                             else {
                                 print("İNTERNET YOK")
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                self.bluractivity.stopAnimating()
-                                self.blur.isHidden = true
+                                    self.bluractivity.stopAnimating()
+                                    self.blur.isHidden = true
                                 }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                let successful = UIImageView(image: UIImage(named: "cancel")!)
-                                successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
-                                successful.center = self.view.center
-                                self.view.addSubview(successful)
+                                    let successful = UIImageView(image: UIImage(named: "cancel")!)
+                                    successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
+                                    successful.center = self.view.center
+                                    self.view.addSubview(successful)
+                                    UIView.animate(withDuration: 0.2,
+                                                   animations: {
+                                                    successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                                    },
+                                                   completion: { _ in
+                                                    UIView.animate(withDuration: 0.2) {
+                                                        successful.transform = CGAffineTransform.identity
+                                                    }
+                                    })
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                               successful.removeFromSuperview()
-                                           }
+                                        successful.removeFromSuperview()
+                                    }
                                 }
                             }
                         }
@@ -228,17 +264,26 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     } else {
                         print("HATA")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.bluractivity.stopAnimating()
-                        self.blur.isHidden = true
+                            self.bluractivity.stopAnimating()
+                            self.blur.isHidden = true
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        let successful = UIImageView(image: UIImage(named: "cancel")!)
-                        successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
-                        successful.center = self.view.center
-                        self.view.addSubview(successful)
+                            let successful = UIImageView(image: UIImage(named: "cancel")!)
+                            successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
+                            successful.center = self.view.center
+                            self.view.addSubview(successful)
+                            UIView.animate(withDuration: 0.2,
+                                           animations: {
+                                            successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                            },
+                                           completion: { _ in
+                                            UIView.animate(withDuration: 0.2) {
+                                                successful.transform = CGAffineTransform.identity
+                                            }
+                            })
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                       successful.removeFromSuperview()
-                                   }
+                                successful.removeFromSuperview()
+                            }
                         }
                     }
                 })
@@ -260,36 +305,45 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
             catch {
                 
             }
-    
-           for i in 0...datecloud.count - 1 {
-               let appDelegate = UIApplication.shared.delegate as! AppDelegate
-               let context = appDelegate.persistentContainer.viewContext
-               let newEmotion = NSEntityDescription.insertNewObject(forEntityName: "Emotion", into: context)
-               
-               newEmotion.setValue(emotioncloud[i], forKey: "emotion")
-               newEmotion.setValue(emotiontextcloud[i], forKey: "emotiontext")
-               newEmotion.setValue(datecloud[i], forKey: "date")
-               newEmotion.setValue(UUID(), forKey:"id")
-               do {
-                   try context.save()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.bluractivity.stopAnimating()
-                self.blur.isHidden = true
+            
+            for i in 0...datecloud.count - 1 {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let newEmotion = NSEntityDescription.insertNewObject(forEntityName: "Emotion", into: context)
+                
+                newEmotion.setValue(emotioncloud[i], forKey: "emotion")
+                newEmotion.setValue(emotiontextcloud[i], forKey: "emotiontext")
+                newEmotion.setValue(datecloud[i], forKey: "date")
+                newEmotion.setValue(UUID(), forKey:"id")
+                do {
+                    try context.save()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.bluractivity.stopAnimating()
+                        self.blur.isHidden = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        let successful = UIImageView(image: UIImage(named: "okay")!)
+                        successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
+                        successful.center = self.view.center
+                        self.view.addSubview(successful)
+                        UIView.animate(withDuration: 0.2,
+                                       animations: {
+                                        successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                        },
+                                       completion: { _ in
+                                        UIView.animate(withDuration: 0.2) {
+                                            successful.transform = CGAffineTransform.identity
+                                        }
+                        })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            successful.removeFromSuperview()
+                        }
+                    }
+                    print("COREDATA SAVE \(i)")
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                let successful = UIImageView(image: UIImage(named: "okay")!)
-                successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
-                successful.center = self.view.center
-                self.view.addSubview(successful)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                               successful.removeFromSuperview()
-                           }
+                catch {
                 }
-                   print("COREDATA SAVE \(i)")
-               }
-               catch {
-               }
-           }
+            }
         }
     }
 }
