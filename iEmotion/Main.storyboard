@@ -391,7 +391,7 @@
                                     <color key="backgroundColor" red="0.11982471446700504" green="0.11982471446700504" blue="0.11982471446700504" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="setting" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="setting" rowHeight="130" id="2cm-5c-mVk" customClass="settingsTableViewCell" customModule="iEmotion" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="setting" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="setting" rowHeight="130" id="2cm-5c-mVk" customClass="settingsTableViewCell" customModule="iEmotion">
                                         <rect key="frame" x="0.0" y="148" width="375" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2cm-5c-mVk" id="Xzv-PN-xrC">
@@ -399,11 +399,11 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJo-fl-WRm">
-                                                    <rect key="frame" x="7" y="0.0" width="360" height="119"/>
+                                                    <rect key="frame" x="7" y="3" width="360" height="125"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="wIi-Ek-uYd">
-                                                            <rect key="frame" x="0.0" y="32" width="360" height="54"/>
+                                                            <rect key="frame" x="0.0" y="32" width="360" height="58"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="15"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -426,12 +426,39 @@
                                     <outlet property="delegate" destination="tTk-jy-gko" id="xvh-Lo-le8"/>
                                 </connections>
                             </tableView>
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="caM-E9-gsc">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="DIs-Yf-2DF">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRu-4D-ESf">
+                                            <rect key="frame" x="0.0" y="352" width="375" height="66"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="17"/>
+                                            <color key="textColor" red="1" green="0.82958460079999996" blue="0.017946490820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="mvM-Zf-tns">
+                                            <rect key="frame" x="0.0" y="325" width="375" height="38"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="color" red="1" green="0.82958460079999996" blue="0.017946490820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                </view>
+                                <color key="backgroundColor" red="0.99519230769230771" green="0.99038461538461542" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" red="0.11643401019999999" green="0.11643401019999999" blue="0.11643401019999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="2c9-ml-FmQ"/>
                     </view>
                     <navigationItem key="navigationItem" id="dnj-Cc-RIl"/>
                     <connections>
+                        <outlet property="blur" destination="caM-E9-gsc" id="hFs-Ff-Ysg"/>
+                        <outlet property="bluractivity" destination="mvM-Zf-tns" id="OMF-BF-oGL"/>
+                        <outlet property="blurtext" destination="KRu-4D-ESf" id="YcX-qF-1th"/>
                         <outlet property="settingsTableView" destination="8mw-1t-Xqh" id="tfA-c9-bKD"/>
                     </connections>
                 </viewController>
