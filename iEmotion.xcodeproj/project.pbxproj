@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E1E98F1247746440034382C /* istatistik.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1E98F0247746430034382C /* istatistik.swift */; };
 		1E1E98F3247748DD0034382C /* TableViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1E98F2247748DD0034382C /* TableViewCell2.swift */; };
+		1E20D4FB248EC6D00009E26E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E20D4FA248EC6D00009E26E /* GoogleService-Info.plist */; };
 		1E24DE24248424AD006288EA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E24DE23248424AD006288EA /* settings.swift */; };
 		1E24DE26248424EF006288EA /* settingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E24DE25248424EF006288EA /* settingsTableViewCell.swift */; };
 		1E2FA28024709EC000C98256 /* Montserrat-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2FA26B24709EBE00C98256 /* Montserrat-ExtraLight.otf */; };
@@ -42,11 +43,14 @@
 		1EE1776E24732EE4008582BF /* Emotion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1776C24732EE4008582BF /* Emotion.xcdatamodeld */; };
 		1EE1777424733162008582BF /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1777324733162008582BF /* Statistics.swift */; };
 		1EF097D0247AAF0A001FA147 /* Anydore.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1EF097CF247AAF0A001FA147 /* Anydore.otf */; };
+		4B4838C4B97DFC8CD133B496 /* Pods_iEmotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10ACB6ECA55E80F3F0CD8FFF /* Pods_iEmotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10ACB6ECA55E80F3F0CD8FFF /* Pods_iEmotion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iEmotion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1E98F0247746430034382C /* istatistik.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = istatistik.swift; sourceTree = "<group>"; };
 		1E1E98F2247748DD0034382C /* TableViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell2.swift; sourceTree = "<group>"; };
+		1E20D4FA248EC6D00009E26E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1E24DE23248424AD006288EA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		1E24DE25248424EF006288EA /* settingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsTableViewCell.swift; sourceTree = "<group>"; };
 		1E2FA26B24709EBE00C98256 /* Montserrat-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraLight.otf"; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 		1EE1776D24732EE4008582BF /* Emotions.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Emotions.xcdatamodel; sourceTree = "<group>"; };
 		1EE1777324733162008582BF /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		1EF097CF247AAF0A001FA147 /* Anydore.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Anydore.otf; sourceTree = "<group>"; };
+		E51F6291EF87B2324CBB7089 /* Pods-iEmotion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iEmotion.release.xcconfig"; path = "Target Support Files/Pods-iEmotion/Pods-iEmotion.release.xcconfig"; sourceTree = "<group>"; };
+		EC870D488FA01547F3EBB905 /* Pods-iEmotion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iEmotion.debug.xcconfig"; path = "Target Support Files/Pods-iEmotion/Pods-iEmotion.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E75E62D247C3CF60002C505 /* CloudKit.framework in Frameworks */,
+				4B4838C4B97DFC8CD133B496 /* Pods_iEmotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				1E75E62C247C3CF60002C505 /* CloudKit.framework */,
+				10ACB6ECA55E80F3F0CD8FFF /* Pods_iEmotion.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,6 +147,7 @@
 				1EA66CB324709CD1001A317F /* iEmotion */,
 				1EA66CB224709CD1001A317F /* Products */,
 				1E75E62B247C3CF60002C505 /* Frameworks */,
+				C6DFE4E141922F90CD9EE0D8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,9 +177,20 @@
 				1EA66CC024709CD5001A317F /* Assets.xcassets */,
 				1EE1776C24732EE4008582BF /* Emotion.xcdatamodeld */,
 				1EA66CC524709CD5001A317F /* Info.plist */,
+				1E20D4FA248EC6D00009E26E /* GoogleService-Info.plist */,
 				1E2FA26A24709E9A00C98256 /* Fonts */,
 			);
 			path = iEmotion;
+			sourceTree = "<group>";
+		};
+		C6DFE4E141922F90CD9EE0D8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EC870D488FA01547F3EBB905 /* Pods-iEmotion.debug.xcconfig */,
+				E51F6291EF87B2324CBB7089 /* Pods-iEmotion.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,9 +200,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1EA66CC824709CD5001A317F /* Build configuration list for PBXNativeTarget "iEmotion" */;
 			buildPhases = (
+				759D5266CBE4D7F307392334 /* [CP] Check Pods Manifest.lock */,
 				1EA66CAD24709CD1001A317F /* Sources */,
 				1EA66CAE24709CD1001A317F /* Frameworks */,
 				1EA66CAF24709CD1001A317F /* Resources */,
+				1AE00B150BE83F2D655CF2F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -233,6 +255,7 @@
 			files = (
 				1E2FA28624709EC000C98256 /* Montserrat-Medium.otf in Resources */,
 				1E2FA28224709EC000C98256 /* Montserrat-ExtraBold.otf in Resources */,
+				1E20D4FB248EC6D00009E26E /* GoogleService-Info.plist in Resources */,
 				1EA66CCC24709D4B001A317F /* Main.storyboard in Resources */,
 				1E2FA28F24709EC000C98256 /* Montserrat-Regular.otf in Resources */,
 				1E2FA29024709EC000C98256 /* Montserrat-Light.otf in Resources */,
@@ -259,6 +282,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AE00B150BE83F2D655CF2F6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iEmotion/Pods-iEmotion-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iEmotion/Pods-iEmotion-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iEmotion/Pods-iEmotion-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		759D5266CBE4D7F307392334 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iEmotion-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1EA66CAD24709CD1001A317F /* Sources */ = {
@@ -408,6 +473,7 @@
 		};
 		1EA66CC924709CD5001A317F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC870D488FA01547F3EBB905 /* Pods-iEmotion.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iEmotion/iEmotion.entitlements;
@@ -428,6 +494,7 @@
 		};
 		1EA66CCA24709CD5001A317F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E51F6291EF87B2324CBB7089 /* Pods-iEmotion.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iEmotion/iEmotion.entitlements;

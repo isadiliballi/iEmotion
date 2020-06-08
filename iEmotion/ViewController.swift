@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import CloudKit
 import Network
+import Firebase
+import GoogleMobileAds
 
 class ViewController: UIViewController, UIScrollViewDelegate{
     
@@ -99,7 +101,6 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         
         datecontrol()
         warning()
-        
         
         
         let firstopentouch = UserDefaults.standard.bool(forKey: "firstopentouch")

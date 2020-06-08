@@ -10,8 +10,9 @@ import UIKit
 import CloudKit
 import CoreData
 import Network
+import StoreKit
 
-class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SKPaymentTransactionObserver {
     
     let privateDatabase = CKContainer.default().privateCloudDatabase
     var datecloud = [String]()
@@ -27,12 +28,16 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var bluractivity: UIActivityIndicatorView!
     @IBOutlet weak var blurtext: UILabel!
     
+    let productID = "isadiliballi.iEmotion"
+    var restored = [SKPaymentTransaction]()
+    
     var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI İCLOUD'A YEDEKLE","İCLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
     var backcolor = [UIColor.init(displayP3Red: 40/255, green: 196/255, blue: 1/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 139/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 81/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 0/255, blue: 135/255, alpha: 1),UIColor.init(displayP3Red: 232/255, green: 0/255, blue: 255/255, alpha: 1)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SKPaymentQueue.default().add(self)
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         
@@ -51,10 +56,27 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+                    self.bluractivity.startAnimating()
+                    self.blur.isHidden = false
+                    self.blurtext.text = ""
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+            self.navigationItem.hidesBackButton = true
             
+            if SKPaymentQueue.canMakePayments() {
+                let paymentRequest = SKMutablePayment()
+                paymentRequest.productIdentifier = self.productID
+                SKPaymentQueue.default().add(paymentRequest)
+            }
+            else {
+            }
         }
         if indexPath.row == 1 {
-            
+            self.bluractivity.startAnimating()
+                    self.blur.isHidden = false
+                    self.blurtext.text = ""
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+            self.navigationItem.hidesBackButton = true
+            SKPaymentQueue.default().restoreCompletedTransactions()
         }
         if indexPath.row == 2 {
             cloudkitsave()
@@ -72,9 +94,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
     }
-    
-    
-    
     
     func cloudkitsave() {
         var cloudDate = [String]()
@@ -343,6 +362,37 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
                 catch {
                 }
+            }
+        }
+    }
+    
+    
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            if transaction.transactionState == .purchased {
+                SKPaymentQueue.default().finishTransaction(transaction)
+            }
+            else if transaction.transactionState == .restored {
+                SKPaymentQueue.default().restoreCompletedTransactions()
+                restored.append(transaction)
+                SKPaymentQueue.default().finishTransaction(transaction)
+                self.bluractivity.stopAnimating()
+                self.blur.isHidden = true
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                self.navigationItem.hidesBackButton = false
+            }
+            else if transaction.transactionState == .failed {
+                self.bluractivity.stopAnimating()
+                self.blur.isHidden = true
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                self.navigationItem.hidesBackButton = false
+            }
+            else {
+                self.bluractivity.stopAnimating()
+                self.blur.isHidden = true
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                self.navigationItem.hidesBackButton = false
             }
         }
     }
