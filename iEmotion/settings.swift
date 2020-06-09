@@ -34,9 +34,12 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI İCLOUD'A YEDEKLE","İCLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
     var backcolor = [UIColor.init(displayP3Red: 40/255, green: 196/255, blue: 1/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 139/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 81/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 0/255, blue: 135/255, alpha: 1),UIColor.init(displayP3Red: 232/255, green: 0/255, blue: 255/255, alpha: 1)]
     
+    var removead = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         SKPaymentQueue.default().add(self)
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
@@ -56,6 +59,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            if removead == false {
                     self.bluractivity.startAnimating()
                     self.blur.isHidden = false
                     self.blurtext.text = ""
@@ -68,6 +72,16 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                 SKPaymentQueue.default().add(paymentRequest)
             }
             else {
+            }
+            }
+            else {
+                blur.isHidden = false
+                blurtext.text = "Zaten Satın Alındı!"
+                bluractivity.isHidden = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    self.bluractivity.isHidden = false
+                    self.blur.isHidden = true
+                }
             }
         }
         if indexPath.row == 1 {
@@ -149,7 +163,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                             self.blur.isHidden = true
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            let successful = UIImageView(image: UIImage(named: "okay")!)
+                            let successful = UIImageView(image: UIImage(named: "successful")!)
                             successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
                             successful.center = self.view.center
                             self.view.addSubview(successful)
@@ -341,7 +355,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                         self.blur.isHidden = true
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        let successful = UIImageView(image: UIImage(named: "okay")!)
+                        let successful = UIImageView(image: UIImage(named: "successful")!)
                         successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
                         successful.center = self.view.center
                         self.view.addSubview(successful)
@@ -371,16 +385,41 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             if transaction.transactionState == .purchased {
+                removead = true
+                UserDefaults.standard.set(true, forKey: "removead")
                 SKPaymentQueue.default().finishTransaction(transaction)
+                self.bluractivity.stopAnimating()
+                self.blur.isHidden = true
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                self.navigationItem.hidesBackButton = false
             }
             else if transaction.transactionState == .restored {
                 SKPaymentQueue.default().restoreCompletedTransactions()
+                UserDefaults.standard.set(true, forKey: "removead")
                 restored.append(transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 self.bluractivity.stopAnimating()
                 self.blur.isHidden = true
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 self.navigationItem.hidesBackButton = false
+                
+                    let successful = UIImageView(image: UIImage(named: "successful")!)
+                    successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
+                    successful.center = self.view.center
+                    self.view.addSubview(successful)
+                    UIView.animate(withDuration: 0.2,
+                                   animations: {
+                                    successful.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    },
+                                   completion: { _ in
+                                    UIView.animate(withDuration: 0.2) {
+                                        successful.transform = CGAffineTransform.identity
+                                    }
+                    })
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                        successful.removeFromSuperview()
+                    }
+                
             }
             else if transaction.transactionState == .failed {
                 self.bluractivity.stopAnimating()
@@ -389,10 +428,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                 self.navigationItem.hidesBackButton = false
             }
             else {
-                self.bluractivity.stopAnimating()
-                self.blur.isHidden = true
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                self.navigationItem.hidesBackButton = false
             }
         }
     }

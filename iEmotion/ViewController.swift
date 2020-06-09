@@ -13,7 +13,7 @@ import Network
 import Firebase
 import GoogleMobileAds
 
-class ViewController: UIViewController, UIScrollViewDelegate{
+class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDelegate{
     
     @IBOutlet weak var EmotionScroll: UIScrollView!
     @IBOutlet weak var Emotions: UIImageView!
@@ -34,8 +34,6 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var touch = UIImageView()
     var touchtext = UILabel()
     var touchclose = UIButton()
-    
-    var keyboardheight = CGRect()
     
     var emotioncontrol = false
     
@@ -59,10 +57,17 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     var emotiontextcloud = [String]()
     
     let monitor = NWPathMonitor()
-    
+    var interstitial: GADInterstitial!
+    var removead = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if removead == false {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let request = GADRequest()
+        interstitial.load(request)
+        }
         
         let back = NotificationCenter.default
         back.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -73,8 +78,6 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         UINavigationBar.appearance().tintColor = .white
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
         
         textboxview.layer.cornerRadius = 20
         textboxview.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
@@ -106,10 +109,12 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         let firstopentouch = UserDefaults.standard.bool(forKey: "firstopentouch")
         if firstopentouch  {
             firstopentouchcontrol = UserDefaults.standard.object(forKey: "firstopentouchcontrol") as! Bool
+            removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         }
         else {
             UserDefaults.standard.set(true, forKey: "firstopentouch")
             UserDefaults.standard.set(firstopentouchcontrol, forKey: "firstopentouchcontrol")
+            UserDefaults.standard.set(removead, forKey: "removead")
         }
         
         if firstopentouchcontrol == false {
@@ -118,10 +123,7 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         else {
             
         }
-        
-        
     }
-    
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = scrollView.contentOffset.x / EmotionScroll.frame.size.width
@@ -266,6 +268,12 @@ class ViewController: UIViewController, UIScrollViewDelegate{
     }
     
     @IBAction func cancel(_ sender: Any) {
+        //ADS
+        if removead == false {
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+         }
+        }
         emotioncontrol = false
         if emotioncontrol == false {
             darkbackground.isHidden = true
@@ -285,12 +293,17 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         textboxtext.textColor = UIColor.lightGray
         textboxtext.selectedTextRange = textboxtext.textRange(from: textboxtext.beginningOfDocument, to: textboxtext.beginningOfDocument)
         
-        textboxokay.frame.origin.y += keyboardheight.height
-        textboxcancel.frame.origin.y += keyboardheight.height
         self.title = "iEmotion"
         datecontrol()
     }
     @IBAction func okay(_ sender: Any) {
+       //ADS
+        if removead == false {
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+         }
+        }
+        
         var emotiontxt = String(textboxtext.text)
         if emotiontxt == "Biraz anlatmak ister misin?" {
             emotiontxt = "Bir şey anlatmadın! :("
@@ -347,8 +360,6 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         }
         catch {
         }
-        textboxokay.frame.origin.y += keyboardheight.height
-        textboxcancel.frame.origin.y += keyboardheight.height
         
         datecontrol()
         cloudkit()
@@ -630,12 +641,16 @@ class ViewController: UIViewController, UIScrollViewDelegate{
         // </D2>
     }
     @objc func appMovedToBackground() {
-        let positionY = view.frame.height
-        let height = textboxokay.frame.height
-        textboxokay.frame.origin.y = positionY + height
-        textboxcancel.frame.origin.y = positionY + height
     }
-    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+
+            self.textboxokay.frame.origin.y = textboxview.frame.size.height - keyboardSize.height - textboxokay.frame.width * 1.5
+                self.textboxcancel.frame.origin.y = textboxview.frame.size.height - keyboardSize.height - textboxcancel.frame.width * 1.5
+                textboxtext.frame.size = CGSize(width: textboxtext.frame.width, height: textboxokay.frame.minY - textboxokay.frame.width / 2)
+            
+        }
+    }
 }
 
 
@@ -665,25 +680,6 @@ extension ViewController: UITextViewDelegate {
             if textboxtext.textColor == UIColor.lightGray {
                 textboxtext.selectedTextRange = textboxtext.textRange(from: textboxtext.beginningOfDocument, to: textboxtext.beginningOfDocument)
             }
-        }
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                keyboardheight = keyboardSize
-                self.textboxokay.frame.origin.y -= keyboardSize.height
-                self.textboxcancel.frame.origin.y -= keyboardSize.height
-                textboxtext.frame.size = CGSize(width: textboxtext.frame.width, height: textboxokay.frame.minY - textboxokay.frame.width / 2)
-            }
-        }
-    }
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            let positionY = view.frame.height
-            let height = textboxokay.frame.height / 2
-            textboxokay.frame.origin.y = positionY + height
-            textboxcancel.frame.origin.y = positionY + height
         }
     }
 }
