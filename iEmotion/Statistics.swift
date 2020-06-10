@@ -9,8 +9,9 @@
 import UIKit
 import CoreData
 import CloudKit
+import GoogleMobileAds
 
-class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, GADInterstitialDelegate {
     
     @IBOutlet weak var EmotionList: UITableView!
     
@@ -41,8 +42,18 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
      let privateDatabase = CKContainer.default().privateCloudDatabase
   
+    var interstitial: GADInterstitial!
+    var removead = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        removead = UserDefaults.standard.object(forKey: "removead") as! Bool
+        if removead == false {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let request = GADRequest()
+        interstitial.load(request)
+        }
         
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
@@ -63,6 +74,14 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let alert = UIAlertController(title: "Emo!", message: "Önce günlüğünüze emo eklemeniz gerekiyor. Bir önceki sayfaya gidin.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "TAMAM", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+        }
+         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        //ADS
+            if self.removead == false {
+                if self.interstitial.isReady {
+                    self.interstitial.present(fromRootViewController: self)
+         }
+        }
         }
     }
     
@@ -105,6 +124,14 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "emotion") as! TableViewCell
+        
+               let screenheight = view.frame.size.height
+               let screenwidth = view.frame.size.width
+               let ratio = screenheight + screenwidth
+               
+               if ratio == 888 { // iPhone 5 - 5S - 5C - SE Series
+                cell.dateText.font = cell.dateText.font.withSize(28)
+               }
         
         year = String(dateArray[indexPath.row].prefix(4))
         
@@ -211,6 +238,15 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
         emotioncancel.isHidden = true
         emotiontext.isHidden = true
         darkbackground.isHidden = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+               //ADS
+                   if self.removead == false {
+                       if self.interstitial.isReady {
+                           self.interstitial.present(fromRootViewController: self)
+                }
+               }
+               }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -341,4 +377,6 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+   
 }

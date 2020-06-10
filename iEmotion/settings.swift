@@ -31,7 +31,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     let productID = "isadiliballi.iEmotion"
     var restored = [SKPaymentTransaction]()
     
-    var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI İCLOUD'A YEDEKLE","İCLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
+    var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI ICLOUD'A YEDEKLE","ICLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
     var backcolor = [UIColor.init(displayP3Red: 40/255, green: 196/255, blue: 1/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 139/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 81/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 0/255, blue: 135/255, alpha: 1),UIColor.init(displayP3Red: 232/255, green: 0/255, blue: 255/255, alpha: 1)]
     
     var removead = false
@@ -39,6 +39,8 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = titleback
         removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         SKPaymentQueue.default().add(self)
         settingsTableView.delegate = self
@@ -105,7 +107,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
             blurtext.text = "EMOLAR İNDİRİLİYOR"
         }
         if indexPath.row == 4 {
-            
+            performSegue(withIdentifier: "info", sender: nil)
         }
     }
     

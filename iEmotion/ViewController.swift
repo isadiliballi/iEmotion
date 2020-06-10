@@ -123,6 +123,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
         else {
             
         }
+        
+        let screenheight = view.frame.size.height
+        let screenwidth = view.frame.size.width
+        let ratio = screenheight + screenwidth
+        
+        if ratio == 888 { // iPhone 5 - 5S - 5C - SE Series
+         warningText3.font = warningText3.font.withSize(12)
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

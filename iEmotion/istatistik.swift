@@ -115,6 +115,15 @@ class istatistik: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "emotion2") as! TableViewCell2
+        
+        let screenheight = view.frame.size.height
+        let screenwidth = view.frame.size.width
+        let ratio = screenheight + screenwidth
+        
+        if ratio == 888 { // iPhone 5 - 5S - 5C - SE Series
+         cell.percent.font = cell.percent.font.withSize(50)
+        }
+        
         cell.emotionimage.image = UIImage(named: emotionsImage[indexPath.row])
         cell.percentcolor.backgroundColor = emotionsColor[indexPath.row]
         cell.percent.text = "%\(emotionPercent[indexPath.row])"
