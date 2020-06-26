@@ -50,7 +50,7 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         if removead == false {
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-6889162326402006/9539359463")
         let request = GADRequest()
         interstitial.load(request)
         }

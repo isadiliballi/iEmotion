@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -189,7 +189,6 @@
 				EC870D488FA01547F3EBB905 /* Pods-iEmotion.debug.xcconfig */,
 				E51F6291EF87B2324CBB7089 /* Pods-iEmotion.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
