@@ -60,15 +60,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
     var interstitial: GADInterstitial!
     var removead = false
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if removead == false {
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-6889162326402006/9539359463")
-        let request = GADRequest()
-        interstitial.load(request)
-        }
-        
+        adfunc()
         let back = NotificationCenter.default
         back.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
         self.title = " iEmotion"
@@ -130,6 +126,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
         
         if ratio == 888 { // iPhone 5 - 5S - 5C - SE Series
          warningText3.font = warningText3.font.withSize(12)
+        }
+    }
+    func adfunc() {
+        if removead == false {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-6889162326402006/9539359463")
+        let request = GADRequest()
+        interstitial.load(request)
         }
     }
     
@@ -277,10 +280,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
     
     @IBAction func cancel(_ sender: Any) {
         //ADS
+        removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         if removead == false {
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
          }
+            adfunc()
         }
         emotioncontrol = false
         if emotioncontrol == false {
@@ -306,10 +311,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
     }
     @IBAction func okay(_ sender: Any) {
        //ADS
+        removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         if removead == false {
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
          }
+            adfunc()
         }
         
         var emotiontxt = String(textboxtext.text)
@@ -401,10 +408,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
         warningView.layer.borderWidth = 3
     }
     @IBAction func warningCloseAction(_ sender: Any) {
+        removead = UserDefaults.standard.object(forKey: "removead") as! Bool
         if removead == false {
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
          }
+            adfunc()
         }
         UIView.animate(withDuration: 0.2,
                        animations: {
@@ -470,12 +479,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
                         self.emotioncloud = (updateRecord?["Emotion"])!
                         
                         self.emotiontextcloud = (updateRecord?["EmotionText"])!
-                        print("VERİLER ÇEKİLDİ")
                         
                         self.monitor.pathUpdateHandler = { path in
                             if path.status == .satisfied {
                                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                                    print("İNTERNET VAR")
                                     var counter = 0
                                     while true {
                                         counter += 1
@@ -488,14 +495,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
                                 
                             }
                             else {
-                                print("İNTERNET YOK")
-                                
                             }
                         }
                         let queue = DispatchQueue(label: "Monitor")
                         self.monitor.start(queue: queue)
                     } else {
-                        print("HATA")
                     }
                     
                 })
@@ -508,13 +512,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
                 let cloudsave = CKRecord(recordType: "iEmotion", recordID: recordName)
                 self.privateDatabase.save(cloudsave) { (savedRecord, error) in
                     if error == nil {
-                        print("SUCCESSFUL")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.savecloud()
                         }
                     }
                     else {
-                        print("ERROR")
                     }
                 }
                 // </D3>
@@ -526,11 +528,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
     }
     func cloudfetchcoredatesave() {
         if datecloud.isEmpty == false {
-            print(datecloud)
-            print(idcloud)
-            print(emotioncloud)
-            print(emotiontextcloud)
-            
             for i in 0...datecloud.count - 1 {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let context = appDelegate.persistentContainer.viewContext
@@ -544,7 +541,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
                 
                 do {
                     try context.save()
-                    print("COREDATA SAVE \(i)")
                 }
                 catch {
                 }
@@ -583,13 +579,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
                 
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
                     if error == nil {
-                        print("KAYDEDİLDİ")
                     } else {
-                        print("HATA")
                     }
                 })
             } else {
-                print("KAYIT GETİRİLEMEDİ")
             }
         }
     }
@@ -642,13 +635,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
                 
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
                     if error == nil {
-                        print("KAYDEDİLDİ")
                     } else {
-                        print("HATA")
                     }
                 })
             } else {
-                print("KAYIT GETİRİLEMEDİ")
             }
         }
         // </D2>

@@ -159,7 +159,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                 
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
                     if error == nil {
-                        print("KAYDEDİLDİ")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             self.bluractivity.stopAnimating()
                             self.blur.isHidden = true
@@ -183,7 +182,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                             }
                         }
                     } else {
-                        print("HATA")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             self.bluractivity.stopAnimating()
                             self.blur.isHidden = true
@@ -209,7 +207,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                     }
                 })
             } else {
-                print("KAYIT GETİRİLEMEDİ")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.bluractivity.stopAnimating()
                     self.blur.isHidden = true
@@ -253,11 +250,9 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                         self.emotioncloud = (updateRecord?["Emotion"])!
                         
                         self.emotiontextcloud = (updateRecord?["EmotionText"])!
-                        print("VERİLER ÇEKİLDİ")
                         self.monitor.pathUpdateHandler = { path in
                             if path.status == .satisfied {
                                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                                    print("İNTERNET VAR")
                                     var counter = 0
                                     while true {
                                         counter += 1
@@ -269,7 +264,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                                 }
                             }
                             else {
-                                print("İNTERNET YOK")
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                     self.bluractivity.stopAnimating()
                                     self.blur.isHidden = true
@@ -297,7 +291,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                         let queue = DispatchQueue(label: "Monitor")
                         self.monitor.start(queue: queue)
                     } else {
-                        print("HATA")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             self.bluractivity.stopAnimating()
                             self.blur.isHidden = true
@@ -374,7 +367,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                             successful.removeFromSuperview()
                         }
                     }
-                    print("COREDATA SAVE \(i)")
                 }
                 catch {
                 }
@@ -397,6 +389,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
             }
             else if transaction.transactionState == .restored {
                 SKPaymentQueue.default().restoreCompletedTransactions()
+                removead = true
                 UserDefaults.standard.set(true, forKey: "removead")
                 restored.append(transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)

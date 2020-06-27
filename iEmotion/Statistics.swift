@@ -318,7 +318,6 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, 
      catch {
      }
      if cloudDate.isEmpty == false {
-        print("DOLU")
          // DATE UPDATE <D2>
          let recordID = CKRecord.ID(recordName: "1")
          
@@ -333,19 +332,15 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, 
          
                  self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
                      if error == nil {
-                         print("KAYDEDİLDİ")
                      } else {
-                         print("HATA")
                      }
                  })
              } else {
-                 print("KAYIT GETİRİLEMEDİ")
              }
          }
          // </D2>
          }
      else {
-        print("BOŞ")
             savecloud()
         }
      }
@@ -367,13 +362,10 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 
                 self.privateDatabase.save(updateRecord!, completionHandler: { (newRecord, error) in
                     if error == nil {
-                        print("KAYDEDİLDİ")
                     } else {
-                        print("HATA")
                     }
                 })
             } else {
-                print("KAYIT GETİRİLEMEDİ")
             }
         }
     }
