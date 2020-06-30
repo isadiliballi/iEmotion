@@ -11,6 +11,7 @@ import CloudKit
 import CoreData
 import Network
 import StoreKit
+import SwiftyStoreKit
 
 class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SKPaymentTransactionObserver {
     
@@ -31,6 +32,8 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     let productID = "isadiliballi.iEmotion"
     var restored = [SKPaymentTransaction]()
     
+    let sharedSecret = "637119d3a0fc4e3682b3da44cb06ed0f"
+    
     var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI ICLOUD'A YEDEKLE","ICLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
     var backcolor = [UIColor.init(displayP3Red: 40/255, green: 196/255, blue: 1/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 139/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 81/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 0/255, blue: 135/255, alpha: 1),UIColor.init(displayP3Red: 232/255, green: 0/255, blue: 255/255, alpha: 1)]
     
@@ -46,6 +49,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         
+        verifypurchase(with: productID, sharedSecret: sharedSecret)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -423,6 +427,30 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                 self.navigationItem.hidesBackButton = false
             }
             else {
+            }
+        }
+    }
+
+    
+    func verifypurchase(with productID: String, sharedSecret: String) {
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                let productId = productID
+                
+                let purchaseResult = SwiftyStoreKit.verifyPurchase(
+                    productId: productId,
+                    inReceipt: receipt)
+                    
+                switch purchaseResult {
+                case .purchased(let receiptItem):
+                    print("\(productId) is purchased: \(receiptItem)")
+                case .notPurchased:
+                    print("The user has never purchased \(productId)")
+                }
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
             }
         }
     }

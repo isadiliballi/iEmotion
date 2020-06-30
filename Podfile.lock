@@ -88,11 +88,13 @@ PODS:
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.9)
   - Protobuf (3.12.0)
+  - SwiftyStoreKit (0.15.0)
 
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Messaging
   - Google-Mobile-Ads-SDK
+  - SwiftyStoreKit
 
 SPEC REPOS:
   trunk:
@@ -113,6 +115,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Firebase: 7cf5f9c67f03cb3b606d1d6535286e1080e57eb6
@@ -132,7 +135,8 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
+  SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: f3eeaa49eb28c9000424d4c327df65db27475951
+PODFILE CHECKSUM: a918ccfe852379362dc9481ffe6a51b50f88507c
 
 COCOAPODS: 1.8.4
