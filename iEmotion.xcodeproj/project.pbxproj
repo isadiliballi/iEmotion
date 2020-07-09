@@ -40,6 +40,7 @@
 		1EA66CC424709CD5001A317F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EA66CC224709CD5001A317F /* LaunchScreen.storyboard */; };
 		1EA66CCC24709D4B001A317F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EA66CCB24709D4B001A317F /* Main.storyboard */; };
 		1EB5E33E24754A8100D9C15E /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB5E33D24754A8100D9C15E /* TableViewCell.swift */; };
+		1ED322BE24B3AA3300486AFF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED322B924B3A96E00486AFF /* StoreKit.framework */; };
 		1EE1776E24732EE4008582BF /* Emotion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1776C24732EE4008582BF /* Emotion.xcdatamodeld */; };
 		1EE1777424733162008582BF /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1777324733162008582BF /* Statistics.swift */; };
 		1EF097D0247AAF0A001FA147 /* Anydore.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1EF097CF247AAF0A001FA147 /* Anydore.otf */; };
@@ -84,6 +85,7 @@
 		1EA66CC524709CD5001A317F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EA66CCB24709D4B001A317F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1EB5E33D24754A8100D9C15E /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		1ED322B924B3A96E00486AFF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1EE1776D24732EE4008582BF /* Emotions.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Emotions.xcdatamodel; sourceTree = "<group>"; };
 		1EE1777324733162008582BF /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		1EF097CF247AAF0A001FA147 /* Anydore.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Anydore.otf; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ED322BE24B3AA3300486AFF /* StoreKit.framework in Frameworks */,
 				1E75E62D247C3CF60002C505 /* CloudKit.framework in Frameworks */,
 				4B4838C4B97DFC8CD133B496 /* Pods_iEmotion.framework in Frameworks */,
 			);
@@ -135,6 +138,7 @@
 		1E75E62B247C3CF60002C505 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1ED322B924B3A96E00486AFF /* StoreKit.framework */,
 				1E75E62C247C3CF60002C505 /* CloudKit.framework */,
 				10ACB6ECA55E80F3F0CD8FFF /* Pods_iEmotion.framework */,
 			);
@@ -406,7 +410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -460,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

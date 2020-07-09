@@ -11,9 +11,8 @@ import CloudKit
 import CoreData
 import Network
 import StoreKit
-import SwiftyStoreKit
 
-class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SKPaymentTransactionObserver {
+class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
     let privateDatabase = CKContainer.default().privateCloudDatabase
     var datecloud = [String]()
@@ -29,27 +28,25 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     @IBOutlet weak var bluractivity: UIActivityIndicatorView!
     @IBOutlet weak var blurtext: UILabel!
     
-    let productID = "isadiliballi.iEmotion"
-    var restored = [SKPaymentTransaction]()
-    
-    let sharedSecret = "637119d3a0fc4e3682b3da44cb06ed0f"
+    var productsRequest = SKProductsRequest()
+    var validProducts = [SKProduct]()
+    var productIndex = 0
     
     var text = ["REKLAMLARI KALDIR","SATIN ALINANLARI GERİ YÜKLE","EMOLARI ICLOUD'A YEDEKLE","ICLOUD'DAN EMOLARI ÇEK","HAKKINDA"]
     var backcolor = [UIColor.init(displayP3Red: 40/255, green: 196/255, blue: 1/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 139/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 81/255, blue: 0/255, alpha: 1),UIColor.init(displayP3Red: 255/255, green: 0/255, blue: 135/255, alpha: 1),UIColor.init(displayP3Red: 232/255, green: 0/255, blue: 255/255, alpha: 1)]
     
-    var removead = false
+    var removead = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchAvailableProducts()
+        
         let titleback = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = titleback
         removead = UserDefaults.standard.object(forKey: "removead") as! Bool
-        SKPaymentQueue.default().add(self)
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
-        
-        verifypurchase(with: productID, sharedSecret: sharedSecret)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,19 +63,12 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             if removead == false {
-                    self.bluractivity.startAnimating()
-                    self.blur.isHidden = false
-                    self.blurtext.text = ""
-            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-            self.navigationItem.hidesBackButton = true
-            
-            if SKPaymentQueue.canMakePayments() {
-                let paymentRequest = SKMutablePayment()
-                paymentRequest.productIdentifier = self.productID
-                SKPaymentQueue.default().add(paymentRequest)
-            }
-            else {
-            }
+                purchaseMyProduct(validProducts[0])
+                self.bluractivity.startAnimating()
+                self.blur.isHidden = false
+                self.blurtext.text = ""
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                self.navigationItem.hidesBackButton = true
             }
             else {
                 blur.isHidden = false
@@ -92,11 +82,11 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
         }
         if indexPath.row == 1 {
             self.bluractivity.startAnimating()
-                    self.blur.isHidden = false
-                    self.blurtext.text = ""
+            self.blur.isHidden = false
+            self.blurtext.text = ""
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
             self.navigationItem.hidesBackButton = true
-            SKPaymentQueue.default().restoreCompletedTransactions()
+            restorePurchase()
         }
         if indexPath.row == 2 {
             cloudkitsave()
@@ -378,30 +368,68 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
         }
     }
     
+    func fetchAvailableProducts()  {
+        let productIdentifiers = NSSet(objects:
+            "com.isadiliballi.iEmotionRemoveAds"
+        )
+        productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
+        productsRequest.delegate = self
+        productsRequest.start()
+    }
     
+    func productsRequest (_ request:SKProductsRequest, didReceive response:SKProductsResponse) {
+        if (response.products.count > 0) {
+            validProducts = response.products
+            let prod100coins = response.products[0] as SKProduct
+            print("1st rpoduct: " + prod100coins.localizedDescription)
+        }
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, shouldAddStorePayment payment: SKPayment, for product: SKProduct) -> Bool {
+        return true
+    }
+    
+    func canMakePurchases() -> Bool {  return SKPaymentQueue.canMakePayments()  }
+    
+    func purchaseMyProduct(_ product: SKProduct) {
+        if self.canMakePurchases() {
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(self)
+            SKPaymentQueue.default().add(payment)
+        } else {}
+    }
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            if transaction.transactionState == .purchased {
-                removead = true
-                UserDefaults.standard.set(true, forKey: "removead")
-                SKPaymentQueue.default().finishTransaction(transaction)
-                self.bluractivity.stopAnimating()
-                self.blur.isHidden = true
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                self.navigationItem.hidesBackButton = false
-            }
-            else if transaction.transactionState == .restored {
-                SKPaymentQueue.default().restoreCompletedTransactions()
-                removead = true
-                UserDefaults.standard.set(true, forKey: "removead")
-                restored.append(transaction)
-                SKPaymentQueue.default().finishTransaction(transaction)
-                self.bluractivity.stopAnimating()
-                self.blur.isHidden = true
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                self.navigationItem.hidesBackButton = false
-                
+        for transaction:AnyObject in transactions {
+            if let trans:SKPaymentTransaction = transaction as? SKPaymentTransaction {
+                switch trans.transactionState {
+                    
+                case .purchased:
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                        removead = true
+                        UserDefaults.standard.set(true, forKey: "removead")
+                    self.bluractivity.stopAnimating()
+                    self.blur.isHidden = true
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    self.navigationItem.hidesBackButton = false
+                    break
+                    
+                case .failed:
+                    self.bluractivity.stopAnimating()
+                    self.blur.isHidden = true
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    self.navigationItem.hidesBackButton = false
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    break
+                case .restored:
+                    removead = true
+                    UserDefaults.standard.set(true, forKey: "removead")
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    self.bluractivity.stopAnimating()
+                    self.blur.isHidden = true
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    self.navigationItem.hidesBackButton = false
+                    
                     let successful = UIImageView(image: UIImage(named: "successful")!)
                     successful.frame = CGRect(x: 0, y: 0, width: self.view.frame.width / 2, height: self.view.frame.width / 2)
                     successful.center = self.view.center
@@ -418,40 +446,18 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource, SK
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                         successful.removeFromSuperview()
                     }
-                
-            }
-            else if transaction.transactionState == .failed {
-                self.bluractivity.stopAnimating()
-                self.blur.isHidden = true
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                self.navigationItem.hidesBackButton = false
-            }
-            else {
-            }
-        }
-    }
-
-    
-    func verifypurchase(with productID: String, sharedSecret: String) {
-        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            switch result {
-            case .success(let receipt):
-                let productId = productID
-                
-                let purchaseResult = SwiftyStoreKit.verifyPurchase(
-                    productId: productId,
-                    inReceipt: receipt)
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    break
                     
-                switch purchaseResult {
-                case .purchased(let receiptItem):
-                    print("\(productId) is purchased: \(receiptItem)")
-                case .notPurchased:
-                    print("The user has never purchased \(productId)")
-                }
-            case .error(let error):
-                print("Receipt verification failed: \(error)")
-            }
-        }
+                default: break
+                }}}
+    }
+    
+    func restorePurchase() {
+        SKPaymentQueue.default().add(self as SKPaymentTransactionObserver)
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
     }
 }

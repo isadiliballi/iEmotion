@@ -63,7 +63,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         adfunc()
         let back = NotificationCenter.default
         back.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
