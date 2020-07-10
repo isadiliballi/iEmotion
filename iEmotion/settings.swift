@@ -63,12 +63,38 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKP
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             if removead == false {
-                purchaseMyProduct(validProducts[0])
-                self.bluractivity.startAnimating()
-                self.blur.isHidden = false
-                self.blurtext.text = ""
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                self.navigationItem.hidesBackButton = true
+                productIndex = 0
+                self.monitor.pathUpdateHandler = { path in
+                    if path.status == .satisfied {
+                        self.purchaseMyProduct(self.validProducts[self.productIndex])
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.bluractivity.startAnimating()
+                        self.blur.isHidden = false
+                        self.blurtext.text = ""
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                        self.navigationItem.hidesBackButton = true
+                        }
+                    }
+                    else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.bluractivity.startAnimating()
+                        self.blur.isHidden = false
+                        self.blurtext.isHidden = false
+                        self.blurtext.text = "İnternet Bağlantısını Kontrol Edin"
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                        self.navigationItem.hidesBackButton = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            self.bluractivity.stopAnimating()
+                            self.blur.isHidden = true
+                            self.blurtext.isHidden = false
+                            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                            self.navigationItem.hidesBackButton = false
+                        }
+                    }
+                }
+                let queue = DispatchQueue(label: "Monitor")
+                    self.monitor.start(queue: queue)
             }
             else {
                 blur.isHidden = false
@@ -380,8 +406,7 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKP
     func productsRequest (_ request:SKProductsRequest, didReceive response:SKProductsResponse) {
         if (response.products.count > 0) {
             validProducts = response.products
-            let prod100coins = response.products[0] as SKProduct
-            print("1st rpoduct: " + prod100coins.localizedDescription)
+         //   let prod100coins = response.products[0] as SKProduct
         }
     }
     
@@ -406,12 +431,14 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKP
                     
                 case .purchased:
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    if productIndex == 0 {
                         removead = true
                         UserDefaults.standard.set(true, forKey: "removead")
-                    self.bluractivity.stopAnimating()
-                    self.blur.isHidden = true
-                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                    self.navigationItem.hidesBackButton = false
+                        self.bluractivity.stopAnimating()
+                        self.blur.isHidden = true
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        self.navigationItem.hidesBackButton = false
+                    }
                     break
                     
                 case .failed:

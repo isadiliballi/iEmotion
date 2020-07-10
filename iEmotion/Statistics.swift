@@ -124,7 +124,6 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "emotion") as! TableViewCell
-        
                let screenheight = view.frame.size.height
                let screenwidth = view.frame.size.width
                let ratio = screenheight + screenwidth
@@ -247,6 +246,10 @@ class Statistics: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
                }
                }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "Sil"
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

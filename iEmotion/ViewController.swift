@@ -243,7 +243,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, GADInterstitialDel
         
         // CoreData'ya kaydedilen son tarih...
         if dateArray.isEmpty == false {
-            
         }
         else {
             dateArray.append("2020-01-01 01:01:01")
@@ -671,7 +670,11 @@ extension ViewController: UITextViewDelegate {
         }
         else if textboxtext.textColor == UIColor.lightGray && !text.isEmpty {
             textboxtext.text = nil
-            textboxtext.textColor = UIColor.black
+            if #available(iOS 13.0, *) {
+                textboxtext.textColor = .label
+            } else {
+                textboxtext.textColor = UIColor.black
+            }
         }
         
         return true

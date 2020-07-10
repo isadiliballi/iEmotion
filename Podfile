@@ -5,5 +5,4 @@ target 'iEmotion' do
 pod 'Firebase/Analytics'
 pod 'Google-Mobile-Ads-SDK'
 pod 'Firebase/Messaging'
-pod 'SwiftyStoreKit'
 end
