@@ -63,16 +63,18 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKP
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             if removead == false {
-                productIndex = 0
                 self.monitor.pathUpdateHandler = { path in
                     if path.status == .satisfied {
-                        self.purchaseMyProduct(self.validProducts[self.productIndex])
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.bluractivity.startAnimating()
                         self.blur.isHidden = false
                         self.blurtext.text = ""
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
                         self.navigationItem.hidesBackButton = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                if self.validProducts.count == 0 {return}
+                                self.purchaseMyProduct(self.validProducts[0])
+                            }
                         }
                     }
                     else {
@@ -406,7 +408,6 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKP
     func productsRequest (_ request:SKProductsRequest, didReceive response:SKProductsResponse) {
         if (response.products.count > 0) {
             validProducts = response.products
-         //   let prod100coins = response.products[0] as SKProduct
         }
     }
     
@@ -431,14 +432,12 @@ class settings: UIViewController, UITableViewDelegate, UITableViewDataSource,SKP
                     
                 case .purchased:
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                    if productIndex == 0 {
                         removead = true
                         UserDefaults.standard.set(true, forKey: "removead")
                         self.bluractivity.stopAnimating()
                         self.blur.isHidden = true
                         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                         self.navigationItem.hidesBackButton = false
-                    }
                     break
                     
                 case .failed:
